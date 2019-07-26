@@ -37,6 +37,8 @@ public class Main {
 		partita.creaPartita();
 		tavolo=partita.getTavolo();
 		
+		
+		
 		while(!partita.getMazzo().isEmpty()){
 			Stampa.println("LE TUE CARTE:");
 			tavolo.stampaCarte();
