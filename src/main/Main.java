@@ -13,7 +13,7 @@ public class Main {
 	
 	private static Partita partita;
 	private static Tavolo tavolo;
-	private static IA ia;
+	private static IA ia = new IA();
 	private static Scanner scanner;
 	
 	public static void main(String[]args){
@@ -41,33 +41,42 @@ public class Main {
 		partita.creaPartita();
 		tavolo=partita.getTavolo();
 		
-		Stampa.println();
-		Stampa.println("======= LA CARTA DI BRISCOLA E': "+tavolo.getMazzo().getCarta(tavolo.getMazzo().getMazzo().size()-1)+" =======");	
+		Stampa.println("\n======= LA CARTA DI BRISCOLA E': "+tavolo.getMazzo().getCarta(tavolo.getMazzo().getMazzo().size()-1)+" =======");	
 		Stampa.println();
 		
 		while(!tavolo.getMazzo().isEmpty()){
+			if (tavolo.getMazzo().getMazzo().size()<=2)
+				Stampa.println("======= ULTIME DUE CARTE DEL MAZZO! La carta di briscola è "+ tavolo.getMazzo().getCarta(1).toString().toUpperCase()+" =======\n");
 			if(partita.isPresoIo()){
 				giocaManoIO();
 			} else{
 				giocaManoIA();
 			}
-			
-			
-			
-//			Stampa.println("LE TUE CARTE:");
-//			tavolo.stampaCarte();
-			break;
 		}
+		
+		while(tavolo.getCarteMie().size()>0){
+			if(partita.isPresoIo()){
+				giocaManoIO();
+			} else{
+				giocaManoIA();
+			}
+		}
+		
+		Stampa.println("======= FINE DELLA PARTITA =======");
+		endGame();
+
 	}
 
 	private static void giocaManoIO() {
 		Stampa.println("LE TUE CARTE:");
 		tavolo.stampaCarte();
+		Stampa.print("\nCosa vuoi giocare...? ");
 		String s = scanner.nextLine();
 		List<String> carte = new ArrayList<String>();
 		for(Carta c: tavolo.getCarteMie())
-			carte.add(c.toString());		
-		while(! (carte.contains(s) || s.equals("1") || s.equals("2") || s.equals("3"))){
+			carte.add(c.toString());
+		
+		while(! (carte.contains(s) || Integer.parseInt(s)<=tavolo.getCarteMie().size())){
 			Stampa.println("Scrivere una carta presente nelle tue carte, oppure il suo indice");
 			s=scanner.nextLine();
 		}
@@ -75,13 +84,58 @@ public class Main {
 		Carta cartaGiocataIA = ia.giocaDopo(partita, partita.getBriscola());
 		Stampa.println("Gioco: "+cartaGiocataIA.toString());
 		partita.setGiocataIA(cartaGiocataIA);
-		partita.controllaGiocata();
+		partita.checkAndContinue();
 	}
 
 	private static void giocaManoIA() {
-		
-		Stampa.println("LE TUE CARTE:");
+		Carta cartaGiocataIA = ia.giocaPrima(partita, partita.getBriscola());
+		Stampa.println("Gioco: "+cartaGiocataIA.toString());
+		partita.setGiocataIA(cartaGiocataIA);
+		Stampa.println("\nLE TUE CARTE:");
 		tavolo.stampaCarte();
+		Stampa.print("\nCosa vuoi giocare...? ");
+		String s = scanner.nextLine();
+		List<String> carte = new ArrayList<String>();
+		for(Carta c: tavolo.getCarteMie())
+			carte.add(c.toString());
+		while(! (carte.contains(s) || Integer.parseInt(s)<=tavolo.getCarteMie().size())){
+			Stampa.println("Scrivere una carta presente nelle tue carte, oppure il suo indice");
+			s=scanner.nextLine();
+		}
+		partita.setGiocataMia(s);
+		partita.checkAndContinue();
 	}
 
+	private static void endGame() {
+		Stampa.println("\nLe carte che hai totalizzato sono:");
+		Stampa.println(tavolo.getPuntiMiei().toString());
+		int punteggio = tavolo.getPuntiMiei().contaPunti();
+		Stampa.println("\n\nHai totalizzato "+punteggio+" punti\n");
+		if (punteggio>60){
+			Stampa.println("COMPLIMENTI! HAI VINTO!");
+			Stampa.println();
+			Stampa.println("Sei veramente bravo!");
+			Stampa.println("Grazie per aver giocato con me! ;) ");
+			Stampa.println("Spero mi concederai la rivincita un giorno...");
+		}
+		else if (punteggio<59){
+			Stampa.println("HAHAHA! Ti ho battuto!");
+			Stampa.println();
+			Stampa.println("E' stata una bella partita ma alla fine ha vinto il più forte, cioè me xD");
+			Stampa.println("Ritenta, magari la prossima volta sarai più fortunato!");
+		}
+		else if (punteggio==59){
+			Stampa.println("HAI PERSO! HAI FATTO 59!!!");
+			Stampa.println("Come si dice: 'Meglio star fuori quando piove...");
+			Stampa.println("...che giocare a briscola e fare 59!'");
+			Stampa.println("Ritenta, magari la prossima volta sarai più fortunato!");
+		}
+		else{
+			Stampa.println("NON CI POSSO CREDERE: ABBIAMO PAREGGIATO!");
+			Stampa.println("Strano, di solito è più facile leccarsi il gomito che pareggiare a briscola...");
+			Stampa.println("E' stato comunque un piacere aver giocato con te.");
+			Stampa.println("La prossima volta vedremo chi la spunterà...rivincita?");
+		}
+	}
+	
 }

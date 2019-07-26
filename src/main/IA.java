@@ -10,14 +10,14 @@ public class IA {
 	public Carta giocaDopo(Partita p, String briscola){
 		
 		Carta cartaPiùAlta=p.getTavolo().getCartaIA(0), mia, sua=p.getTavolo().getCartaIA(0);
-		Carta[] briscoleInMano,stessoSemeInMano;
-		mia = p.getTavolo().getCarteInGioco()[1];
+		Object[] briscoleInMano,stessoSemeInMano;
+		mia = p.getTavolo().getCartaGiocataIO();
 		int a, b, ii, indBriscolaPiùBassa, indStessoSemePiùAlto, indPunteggioPiùBasso, j, jj;
 		List<Carta> sue = p.getTavolo().getCarteIA();
 		boolean liscio,briscolaInsignificante;
 		
 		/* 1: se la mia carta è un liscio */
-		if(!mia.getSeme().equals(briscola) && mia.getPunteggio()<0){
+		if(!(mia.getSeme().equals(briscola)) && mia.getPunteggio()<0){
 			a=contoStessoSeme(sue,mia.getSeme());
 			b=contoBriscole(sue,briscola);
 			if(a>0){// se ha carte dello stesso seme tira quella dal punteggio più alto
@@ -37,14 +37,14 @@ public class IA {
 							jj++;
 						}
 					}
-					if(stessoSemeInMano[0].getPunteggio()>stessoSemeInMano[1].getPunteggio()){
-						sua=stessoSemeInMano[0];
+					if(((Carta) stessoSemeInMano[0]).getPunteggio()> ((Carta) stessoSemeInMano[1]).getPunteggio()){
+						sua=(Carta) stessoSemeInMano[0];
 						for(ii=0;ii<sue.size();ii++)
 							if(sue.get(ii).equals(sua))
 								p.getTavolo().setIndcgs(ii);
 					}
 					else{
-						sua=stessoSemeInMano[1];
+						sua=(Carta) stessoSemeInMano[1];
 						for(ii=0;ii<sue.size();ii++)
 							if(sue.get(ii).equals(sua))
 								p.getTavolo().setIndcgs(ii);
@@ -54,9 +54,9 @@ public class IA {
 					stessoSemeInMano=(Carta[]) sue.toArray();
 					indStessoSemePiùAlto=0;
 					for(ii=1;ii<stessoSemeInMano.length;ii++)
-						if(stessoSemeInMano[ii].getPunteggio()>stessoSemeInMano[indStessoSemePiùAlto].getPunteggio())
+						if(((Carta) stessoSemeInMano[ii]).getPunteggio()> ((Carta) stessoSemeInMano[indStessoSemePiùAlto]).getPunteggio())
 							indStessoSemePiùAlto=ii;
-					sua=stessoSemeInMano[indStessoSemePiùAlto];
+					sua=(Carta) stessoSemeInMano[indStessoSemePiùAlto];
 					for(j=0;j<sue.size();j++)
 						if(sue.get(j).equals(sua))
 							p.getTavolo().setIndcgs(j);
@@ -103,14 +103,14 @@ public class IA {
 							jj++;
 						}
 					}
-					if(briscoleInMano[0].getPunteggio()<briscoleInMano[1].getPunteggio()){// se il punteggio della prima è minore di quello della seconda tira quella
-						sua=briscoleInMano[0];
+					if(((Carta) briscoleInMano[0]).getPunteggio()<((Carta)briscoleInMano[1]).getPunteggio()){// se il punteggio della prima è minore di quello della seconda tira quella
+						sua=(Carta) briscoleInMano[0];
 						for(ii=0;ii<sue.size();ii++)
 							if(sue.get(ii).equals(sua))
 								p.getTavolo().setIndcgs(ii);
 					}
 					else{
-						sua=briscoleInMano[1];
+						sua=(Carta) briscoleInMano[1];
 						for(ii=0;ii<sue.size();ii++)
 							if(sue.get(ii).equals(sua))
 								p.getTavolo().setIndcgs(ii);
@@ -120,9 +120,9 @@ public class IA {
 					briscoleInMano=(Carta[]) sue.toArray();
 					indBriscolaPiùBassa=0;
 					for(ii=1;ii<briscoleInMano.length;ii++)
-						if(briscoleInMano[ii].getPunteggio()<briscoleInMano[indBriscolaPiùBassa].getPunteggio())
+						if(((Carta) briscoleInMano[ii]).getPunteggio()<((Carta) briscoleInMano[indBriscolaPiùBassa]).getPunteggio())
 							indBriscolaPiùBassa=ii;
-					sua=briscoleInMano[indBriscolaPiùBassa];
+					sua=(Carta) briscoleInMano[indBriscolaPiùBassa];
 					for(j=0;j<sue.size();j++)
 						if(sue.get(j).equals(sua))
 							p.getTavolo().setIndcgs(j);
@@ -159,19 +159,19 @@ public class IA {
 							jj++;
 						}
 					}
-					if(stessoSemeInMano[0].getPunteggio()>stessoSemeInMano[1].getPunteggio())// se il punteggio della prima è maggiore di quello della seconda
-						cartaPiùAlta=stessoSemeInMano[0];
+					if(((Carta) stessoSemeInMano[0]).getPunteggio()>((Carta) stessoSemeInMano[1]).getPunteggio())// se il punteggio della prima è maggiore di quello della seconda
+						cartaPiùAlta=(Carta) stessoSemeInMano[0];
 					else
-						cartaPiùAlta=stessoSemeInMano[1];
+						cartaPiùAlta=(Carta) stessoSemeInMano[1];
 				}
 				else if(a==3){// altrimenti se ha tre carte dello stesso seme
 					cartaPiùAlta=null;
 					stessoSemeInMano=(Carta[]) sue.toArray();
 					indStessoSemePiùAlto=0;
 					for(ii=1;ii<stessoSemeInMano.length;ii++)
-						if(stessoSemeInMano[ii].getPunteggio()>stessoSemeInMano[indStessoSemePiùAlto].getPunteggio())
+						if(((Carta) stessoSemeInMano[ii]).getPunteggio()>((Carta) stessoSemeInMano[indStessoSemePiùAlto]).getPunteggio())
 							indStessoSemePiùAlto=ii;
-					cartaPiùAlta=stessoSemeInMano[indStessoSemePiùAlto];
+					cartaPiùAlta=(Carta) stessoSemeInMano[indStessoSemePiùAlto];
 				}
 				if(cartaPiùAlta.getPunteggio()>mia.getPunteggio()){// se la sua carta dello stesso seme è più alta tira quella
 					sua=cartaPiùAlta;
@@ -196,14 +196,14 @@ public class IA {
 								jj++;
 							}
 						}
-						if(briscoleInMano[0].getPunteggio()<briscoleInMano[1].getPunteggio()){// se il punteggio della prima è minore di quello della seconda tira quella
-							sua=briscoleInMano[0];
+						if(((Carta) briscoleInMano[0]).getPunteggio()<((Carta) briscoleInMano[1]).getPunteggio()){// se il punteggio della prima è minore di quello della seconda tira quella
+							sua=(Carta) briscoleInMano[0];
 							for(ii=0;ii<sue.size();ii++)
 								if(sue.get(ii).equals(sua))
 									p.getTavolo().setIndcgs(ii);
 						}
 						else{
-							sua=briscoleInMano[1];
+							sua=(Carta) briscoleInMano[1];
 							for(ii=0;ii<sue.size();ii++)
 								if(sue.get(ii).equals(sua))
 									p.getTavolo().setIndcgs(ii);
@@ -213,9 +213,9 @@ public class IA {
 						briscoleInMano=(Carta[]) sue.toArray();
 						indBriscolaPiùBassa=0;
 						for(ii=1;ii<briscoleInMano.length;ii++)
-							if(briscoleInMano[ii].getPunteggio()<briscoleInMano[indBriscolaPiùBassa].getPunteggio())
+							if(((Carta) briscoleInMano[ii]).getPunteggio()<((Carta) briscoleInMano[indBriscolaPiùBassa]).getPunteggio())
 								indBriscolaPiùBassa=ii;
-						sua=briscoleInMano[indBriscolaPiùBassa];
+						sua=(Carta) briscoleInMano[indBriscolaPiùBassa];
 						for(j=0;j<sue.size();j++)
 							if(sue.get(j).equals(sua))
 								p.getTavolo().setIndcgs(j);
@@ -259,14 +259,14 @@ public class IA {
 							jj++;
 						}
 					}
-					if(briscoleInMano[0].getPunteggio()<briscoleInMano[1].getPunteggio()){// se il punteggio della prima è minore di quello della seconda tira quella
-						sua=briscoleInMano[0];
+					if(((Carta) briscoleInMano[0]).getPunteggio()<((Carta) briscoleInMano[1]).getPunteggio()){// se il punteggio della prima è minore di quello della seconda tira quella
+						sua=(Carta) briscoleInMano[0];
 						for(ii=0;ii<sue.size();ii++)
 							if(sue.get(ii).equals(sua))
 								p.getTavolo().setIndcgs(ii);
 					}
 					else{
-						sua=briscoleInMano[1];
+						sua=(Carta) briscoleInMano[1];
 						for(ii=0;ii<sue.size();ii++)
 							if(sue.get(ii).equals(sua))
 								p.getTavolo().setIndcgs(ii);
@@ -276,9 +276,9 @@ public class IA {
 					briscoleInMano=(Carta[]) sue.toArray();
 					indBriscolaPiùBassa=0;
 					for(ii=1;ii<briscoleInMano.length;ii++)
-						if(briscoleInMano[ii].getPunteggio()<briscoleInMano[indBriscolaPiùBassa].getPunteggio())
+						if(((Carta) briscoleInMano[ii]).getPunteggio()<((Carta) briscoleInMano[indBriscolaPiùBassa]).getPunteggio())
 							indBriscolaPiùBassa=ii;
-					sua=briscoleInMano[indBriscolaPiùBassa];
+					sua=(Carta) briscoleInMano[indBriscolaPiùBassa];
 					for(j=0;j<sue.size();j++)
 						if(sue.get(j).equals(sua))
 							p.getTavolo().setIndcgs(j);
@@ -328,14 +328,14 @@ public class IA {
 							jj++;
 						}
 					}
-					if(briscoleInMano[0].getPunteggio()<briscoleInMano[1].getPunteggio()){// se il punteggio della prima è minore di quello della seconda tira quella
-						sua=briscoleInMano[0];
+					if(((Carta) briscoleInMano[0]).getPunteggio()<((Carta) briscoleInMano[1]).getPunteggio()){// se il punteggio della prima è minore di quello della seconda tira quella
+						sua=(Carta) briscoleInMano[0];
 						for(ii=0;ii<sue.size();ii++)
 							if(sue.get(ii).equals(sua))
 								p.getTavolo().setIndcgs(ii);
 					}
 					else{
-						sua=briscoleInMano[1];
+						sua=(Carta) briscoleInMano[1];
 						for(ii=0;ii<sue.size();ii++)
 							if(sue.get(ii).equals(sua))
 								p.getTavolo().setIndcgs(ii);
@@ -345,9 +345,9 @@ public class IA {
 					briscoleInMano=(Carta[]) sue.toArray();
 					indBriscolaPiùBassa=0;
 					for(ii=1;ii<briscoleInMano.length;ii++)
-						if(briscoleInMano[ii].getPunteggio()<briscoleInMano[indBriscolaPiùBassa].getPunteggio())
+						if(((Carta) briscoleInMano[ii]).getPunteggio()<((Carta) briscoleInMano[indBriscolaPiùBassa]).getPunteggio())
 							indBriscolaPiùBassa=ii;
-					sua=briscoleInMano[indBriscolaPiùBassa];
+					sua=(Carta) briscoleInMano[indBriscolaPiùBassa];
 					for(j=0;j<sue.size();j++)
 						if(sue.get(j).equals(sua))
 							p.getTavolo().setIndcgs(j);
@@ -378,7 +378,7 @@ public class IA {
 	public Carta giocaPrima(Partita p, String briscola){
 		
 		Carta sua=p.getTavolo().getCarteIA().get(0);
-		Carta[] briscoleInMano;
+		Object[] briscoleInMano;
 		int b,ii,indBriscolaPiùBassa,indPunteggioPiùBasso,j,jj;
 		List<Carta> sue = p.getTavolo().getCarteIA();
 		boolean liscio,haBriscola;
@@ -437,26 +437,26 @@ public class IA {
 							jj++;
 						}
 					}
-					if(briscoleInMano[0].getPunteggio()<briscoleInMano[1].getPunteggio()){// se il punteggio della prima è minore di quello della seconda tira quella
-						sua=briscoleInMano[0];
+					if(((Carta) briscoleInMano[0]).getPunteggio()<((Carta) briscoleInMano[1]).getPunteggio()){// se il punteggio della prima è minore di quello della seconda tira quella
+						sua=(Carta) briscoleInMano[0];
 						for(ii=0;ii<sue.size();ii++)
 							if(sue.get(ii).equals(sua))
 								p.getTavolo().setIndcgs(ii);
 					}
 					else{
-						sua=briscoleInMano[1];
+						sua=(Carta) briscoleInMano[1];
 						for(ii=0;ii<sue.size();ii++)
 							if(sue.get(ii).equals(sua))
 								p.getTavolo().setIndcgs(ii);
 					}
 				}
 				else if(b==3){// tre briscole
-					briscoleInMano=(Carta[]) sue.toArray();
+					briscoleInMano=sue.toArray();
 					indBriscolaPiùBassa=0;
 					for(ii=1;ii<briscoleInMano.length;ii++)
-						if(briscoleInMano[ii].getPunteggio()<briscoleInMano[indBriscolaPiùBassa].getPunteggio())
+						if(((Carta) briscoleInMano[ii]).getPunteggio()<((Carta) briscoleInMano[indBriscolaPiùBassa]).getPunteggio())
 							indBriscolaPiùBassa=ii;
-					sua=briscoleInMano[indBriscolaPiùBassa];
+					sua=(Carta) briscoleInMano[indBriscolaPiùBassa];
 					for(j=0;j<sue.size();j++)
 						if(sue.get(j).equals(sua))
 							p.getTavolo().setIndcgs(j);

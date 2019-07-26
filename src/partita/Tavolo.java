@@ -115,10 +115,10 @@ public class Tavolo {
 		return carteIA.get(pos);
 	}
 
-	public void aggiungiCarteIA(Carta c, int pos) {
+	public void aggiungiCarteIA(Carta c) {
 //		this.carteIA[pos] = c;
-		if (this.carteIA.size()>pos)
-			this.carteIA.remove(pos);
+//		if (this.carteIA.size()>pos)
+//			this.carteIA.remove(pos);
 		this.carteIA.add(c);
 	}
 
@@ -130,10 +130,10 @@ public class Tavolo {
 		return this.carteMie.get(pos);
 	}
 
-	public void aggiungiCarteMie(Carta c, int pos) {
+	public void aggiungiCarteMie(Carta c) {
 //		this.carteMie[pos] = c;
-		if(this.carteMie.size()>pos)
-			this.carteMie.remove(pos);
+//		if(this.carteMie.size()>pos)
+//			this.carteMie.remove(pos);
 		this.carteMie.add(c);
 	}
 	
@@ -154,15 +154,23 @@ public class Tavolo {
 	}
 
 	public void removeCartaMie(String string) {
-		for(Carta c: this.carteMie)
+		int pos = 0;
+		for(Carta c: this.carteMie){
 			if (c.toString().equals(string))
-				this.carteMie.remove(c);
+				break;
+			pos++;
+		}
+		this.carteMie.remove(pos);
 	}
 
 	public void removeCartaIA(String string) {
-		for(Carta c: this.carteIA)
+		int pos = 0;
+		for(Carta c: this.carteIA){
 			if (c.toString().equals(string))
-				this.carteIA.remove(c);
+				break;
+			pos++;
+		}
+		this.carteIA.remove(pos);
 	}
 
 }

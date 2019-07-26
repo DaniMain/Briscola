@@ -26,8 +26,22 @@ public class Punti {
 	public int contaPunti(){
 		int punteggio=0;
 		for(Carta c: this.punti)
-			punteggio+=c.getPunteggio();
+			if (c.getPunteggio()>0)
+				punteggio+=c.getPunteggio();
 		return punteggio;
+	}
+	
+	@Override
+	public String toString(){
+		StringBuilder sb = new StringBuilder();
+		for (Carta c: this.getPunti()){
+			sb.append(c.toString());
+			sb.append(", ");
+		}
+		int fine = sb.toString().length();
+		int inizio = fine-2;
+		sb.replace(inizio, fine, "");
+		return sb.toString();
 	}
 
 }

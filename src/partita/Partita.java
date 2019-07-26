@@ -1,6 +1,7 @@
 package partita;
 
 import mazzo.*;
+import stampa.Stampa;
 //import punti.*;
 
 public class Partita {
@@ -28,12 +29,12 @@ public class Partita {
 	
 	private void creaPartitaManoIA(){
 		Mazzo mazzo = this.tavolo.getMazzo();
-		this.tavolo.aggiungiCarteIA(mazzo.pop(), 0);
-		this.tavolo.aggiungiCarteMie(mazzo.pop(), 0);
-		this.tavolo.aggiungiCarteIA(mazzo.pop(), 1);
-		this.tavolo.aggiungiCarteMie(mazzo.pop(), 1);
-		this.tavolo.aggiungiCarteIA(mazzo.pop(), 2);
-		this.tavolo.aggiungiCarteMie(mazzo.pop(), 2);
+		this.tavolo.aggiungiCarteIA(mazzo.pop());
+		this.tavolo.aggiungiCarteMie(mazzo.pop());
+		this.tavolo.aggiungiCarteIA(mazzo.pop());
+		this.tavolo.aggiungiCarteMie(mazzo.pop());
+		this.tavolo.aggiungiCarteIA(mazzo.pop());
+		this.tavolo.aggiungiCarteMie(mazzo.pop());
 		this.briscola=mazzo.getCarta(0).getSeme();
 		mazzo.briscolaAllaFine();
 //		contatoreMazzo = 6;
@@ -42,12 +43,12 @@ public class Partita {
 
 	private void creaPartitaManoIo(){
 		Mazzo mazzo = this.tavolo.getMazzo();
-		this.tavolo.aggiungiCarteMie(mazzo.pop(), 0);
-		this.tavolo.aggiungiCarteIA(mazzo.pop(), 0);
-		this.tavolo.aggiungiCarteMie(mazzo.pop(), 1);
-		this.tavolo.aggiungiCarteIA(mazzo.pop(), 1);
-		this.tavolo.aggiungiCarteMie(mazzo.pop(), 2);
-		this.tavolo.aggiungiCarteIA(mazzo.pop(), 2);
+		this.tavolo.aggiungiCarteMie(mazzo.pop());
+		this.tavolo.aggiungiCarteIA(mazzo.pop());
+		this.tavolo.aggiungiCarteMie(mazzo.pop());
+		this.tavolo.aggiungiCarteIA(mazzo.pop());
+		this.tavolo.aggiungiCarteMie(mazzo.pop());
+		this.tavolo.aggiungiCarteIA(mazzo.pop());
 		this.briscola=mazzo.getCarta(0).getSeme();
 		mazzo.briscolaAllaFine();
 		presoIo=true;
@@ -129,9 +130,9 @@ public class Partita {
 
 	public void setGiocataMia(String s) {
 		if(s.length()==1){
-			Carta cartaGiocataIO = tavolo.getCartaMie(Integer.parseInt(s));
-			tavolo.setCartaGiocataIA(cartaGiocataIO);
-			tavolo.removeCartaMie(cartaGiocataIO.toString());
+			Carta cartaGiocataIO = this.tavolo.getCartaMie(Integer.parseInt(s)-1);
+			this.tavolo.setCartaGiocataIO(cartaGiocataIO);
+			this.tavolo.removeCartaMie(cartaGiocataIO.toString());
 		}
 		else{
 			Carta cartaGiocataIO = null;
@@ -140,8 +141,8 @@ public class Partita {
 					cartaGiocataIO = c;
 					break;
 				}
-			tavolo.setCartaGiocataIA(cartaGiocataIO);
-			tavolo.removeCartaMie(cartaGiocataIO.toString());			
+			this.tavolo.setCartaGiocataIO(cartaGiocataIO);
+			this.tavolo.removeCartaMie(cartaGiocataIO.toString());
 		}
 	}
 
@@ -155,12 +156,44 @@ public class Partita {
 		tavolo.removeCartaIA(cartaGiocataIA.toString());
 	}
 
-	public void controllaGiocata() {
+	public void checkAndContinue() {
+		boolean manoMia;
 		if (this.presoIo){
-			
+			if(this.tavolo.getCartaGiocataIO().isBetter(this.tavolo.getCartaGiocataIA(),this.briscola)){
+				manoMia=true;
+			}
+			else{
+				manoMia=false;
+			}
 		}else{
-			
+			if(this.tavolo.getCartaGiocataIA().isBetter(this.tavolo.getCartaGiocataIO(),this.briscola)){
+				manoMia=false;
+			}
+			else{
+				manoMia=true;
+			}
 		}
+		if(manoMia){
+			Stampa.println("\nHAI PRESO TU!\n");
+			this.tavolo.aggiungiPuntiMiei(this.tavolo.getCartaGiocataIO());
+			this.tavolo.aggiungiPuntiMiei(this.tavolo.getCartaGiocataIA());
+			if (!this.tavolo.getMazzo().isEmpty()){
+				this.tavolo.aggiungiCarteMie(this.tavolo.getMazzo().pop());
+				this.tavolo.aggiungiCarteIA(this.tavolo.getMazzo().pop());
+			}
+			this.setPresoIo(true);
+		}else{
+			Stampa.println("\nHO PRESO IO!\n");
+			this.tavolo.aggiungiPuntiIA(this.tavolo.getCartaGiocataIO());
+			this.tavolo.aggiungiPuntiIA(this.tavolo.getCartaGiocataIA());
+			if (!this.tavolo.getMazzo().isEmpty()){
+				this.tavolo.aggiungiCarteIA(this.tavolo.getMazzo().pop());
+				this.tavolo.aggiungiCarteMie(this.tavolo.getMazzo().pop());
+			}
+			this.setPresoIo(false);
+		}
+		this.tavolo.setCartaGiocataIO(null);
+		this.tavolo.setCartaGiocataIA(null);
 	}
 
 }

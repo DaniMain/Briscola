@@ -57,6 +57,17 @@ public class Carta{
 	public String toString(){
 		return this.getValore()+" di "+this.getSeme();
 	}
+
+	public boolean isBetter(Carta carta, String briscola) {
+		if (!this.getSeme().equals(carta.getSeme()) & !carta.getSeme().equals(briscola))
+			return true;
+		else if (this.getSeme().equals(carta.getSeme()) & this.getPunteggio()>carta.getPunteggio())
+			return true;
+		else if (this.getSeme().equals(briscola) & !carta.getSeme().equals(briscola))
+			return true;
+		else
+			return false;
+	}
 	
 }
 
