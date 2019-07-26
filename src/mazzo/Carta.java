@@ -45,7 +45,7 @@ public class Carta{
 	@Override
 	public boolean equals(Object o){
 		Carta c = (Carta) o;
-		return (this.getValore().equals(c.getValore()))&&(this.getSeme().equals(c.getSeme()));
+		return (this.getValore().equals(c.getValore())) && (this.getSeme().equals(c.getSeme()));
 	}
 	
 	@Override

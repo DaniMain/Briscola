@@ -76,13 +76,13 @@ public class Briscola {
 	}
 	
 	public void presaIo(Partita p,Carta[] c){
-		p.getPuntiMiei().add(c[0]);
-		p.getPuntiIA().add(c[1]);
+//		p.getPuntiMiei().add(c[0]);
+//		p.getPuntiIA().add(c[1]);
 	}
 	
 	public void presaIA(Partita p,Carta[] c){
-		p.getPuntiIA().add(c[0]);
-		p.getPuntiMiei().add(c[1]);
+//		p.getPuntiIA().add(c[0]);
+//		p.getPuntiMiei().add(c[1]);
 	}
 
 }

@@ -13,6 +13,8 @@ public class Tavolo {
 	private List<Carta> carteMie;
 	private Carta[] carteInGioco;
 	private Carta[] ultimaPresa;
+	private Carta cartaGiocataIO;
+	private Carta cartaGiocataIA;
 	private Punti puntiIA;
 	private Punti puntiMiei;
 	private Mazzo mazzo;
@@ -27,6 +29,22 @@ public class Tavolo {
 		this.puntiMiei = new Punti();
 		this.indcgm = 0;
 		this.indcgs = 0;
+	}
+	
+	public Carta getCartaGiocataIO() {
+		return cartaGiocataIO;
+	}
+
+	public void setCartaGiocataIO(Carta cartaGiocataIO) {
+		this.cartaGiocataIO = cartaGiocataIO;
+	}
+
+	public Carta getCartaGiocataIA() {
+		return cartaGiocataIA;
+	}
+
+	public void setCartaGiocataIA(Carta cartaGiocataIA) {
+		this.cartaGiocataIA = cartaGiocataIA;
 	}
 
 	public int getIndcgm() {
@@ -128,8 +146,23 @@ public class Tavolo {
 	}
 	
 	public void stampaCarte(){
+		int i=1;
+		for(Carta c: this.carteMie){
+			Stampa.println(i+") "+c.toString());
+			i++;
+		}
+	}
+
+	public void removeCartaMie(String string) {
 		for(Carta c: this.carteMie)
-			Stampa.println(c.toString());
+			if (c.toString().equals(string))
+				this.carteMie.remove(c);
+	}
+
+	public void removeCartaIA(String string) {
+		for(Carta c: this.carteIA)
+			if (c.toString().equals(string))
+				this.carteIA.remove(c);
 	}
 
 }

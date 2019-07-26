@@ -239,7 +239,7 @@ public class MainInterface {
 	public void gioca(Partita p) throws Exception{
 
 		/* mega while per la partita vera e propria */
-		while(p.getContatoreMazzo()!=38){
+//		while(p.getContatoreMazzo()!=38){
 
 			if(!p.isPresoIo()){
 				p.getTavolo().getCarteInGioco()[0]=briscola.lanciaIA(p);
@@ -255,10 +255,10 @@ public class MainInterface {
 				}
 				lblNewLabel.setText(briscola.ConfrontoPresa(p));
 			}
-			p.setContatoreMazzo(2);
+//			p.setContatoreMazzo(2);
 
 		}
 
 	}
 
-}
+//}

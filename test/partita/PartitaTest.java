@@ -20,7 +20,7 @@ public class PartitaTest {
 
 	@Test
 	public void testCominciaIa() {
-		mazzo = this.partita.getMazzo();
+//		mazzo = this.partita.getMazzo();
 		partita.creaPartita();
 		mazzo.stampaMazzo();
 		System.out.println();
@@ -33,7 +33,7 @@ public class PartitaTest {
 	
 	@Test
 	public void testCominciaIo() {
-		mazzo = this.partita.getMazzo();
+//		mazzo = this.partita.getMazzo();
 		mazzo.stampaMazzo();
 		System.out.println();
 		partita.setIniziaIA(false);
