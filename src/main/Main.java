@@ -16,17 +16,20 @@ public class Main {
 	private static IA ia = new IA();
 	private static Scanner scanner;
 	
-	public static void main(String[]args){
+	public static void main(String[]args) throws InterruptedException{
 
 		scanner = new Scanner(System.in);
 
 		/* inizio della mano */
 		Stampa.println("Realizzato da Daniele Mainella il 26/07/2019. Tutti i diritti sono riservati.");
 		Stampa.println();
+		Thread.sleep(1000);
 		Stampa.println("Ciao, giochiamo a briscola!");
 		Stampa.print("Salutami, e possiamo iniziare: ");
 		String saluto = scanner.nextLine();
+		Thread.sleep(200);
 		Stampa.println(saluto + " anche a te!");
+		Thread.sleep(1000);
 		Stampa.print("Vuoi iniziare tu la mano (Scrivere 'si' o 'no')? ");
 		String s = scanner.nextLine();
 		while(!s.equals("si") && !s.equals("no")){
@@ -40,7 +43,8 @@ public class Main {
 		/* creazione della partita */
 		partita.creaPartita();
 		tavolo=partita.getTavolo();
-		
+
+		Thread.sleep(500);
 		Stampa.println("\n======= LA CARTA DI BRISCOLA E': "+tavolo.getMazzo().getCarta(tavolo.getMazzo().getMazzo().size()-1)+" =======");	
 		Stampa.println();
 		
@@ -67,16 +71,24 @@ public class Main {
 
 	}
 
-	private static void giocaManoIO() {
+	private static void giocaManoIO() throws InterruptedException {
+		Thread.sleep(200);
 		manoIO();
-		manoIA();		
+		Thread.sleep(500);
+		manoIA();
+		Thread.sleep(750);
 		partita.checkAndContinue();
+		Thread.sleep(200);
 	}
 
-	private static void giocaManoIA() {
+	private static void giocaManoIA() throws InterruptedException {
+		Thread.sleep(200);
 		manoIA();
+		Thread.sleep(500);
 		manoIO();
+		Thread.sleep(200);
 		partita.checkAndContinue();
+		Thread.sleep(200);
 	}
 	
 	private static void manoIA(){
@@ -105,7 +117,7 @@ public class Main {
 	}
 
 	private static void endGame() {
-		Stampa.println("\nLe carte che hai totalizzato sono:");
+		Stampa.println("\nLe carte che hai collezionato sono:");
 		Stampa.println(tavolo.getPuntiMiei().toString());
 		int punteggio = tavolo.getPuntiMiei().contaPunti();
 		Stampa.println("\n\nHai totalizzato "+punteggio+" punti\n");

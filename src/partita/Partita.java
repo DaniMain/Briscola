@@ -156,7 +156,7 @@ public class Partita {
 		tavolo.removeCartaIA(cartaGiocataIA.toString());
 	}
 
-	public void checkAndContinue() {
+	public void checkAndContinue(){
 		boolean manoMia;
 		if (this.presoIo){
 			if(this.tavolo.getCartaGiocataIO().isBetter(this.tavolo.getCartaGiocataIA(),this.briscola)){
