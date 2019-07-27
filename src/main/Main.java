@@ -68,29 +68,28 @@ public class Main {
 	}
 
 	private static void giocaManoIO() {
-		Stampa.println("LE TUE CARTE:");
-		tavolo.stampaCarte();
-		Stampa.print("\nCosa vuoi giocare...? ");
-		String s = scanner.nextLine();
-		List<String> carte = new ArrayList<String>();
-		for(Carta c: tavolo.getCarteMie())
-			carte.add(c.toString());
-		
-		while(! (carte.contains(s) || Integer.parseInt(s)<=tavolo.getCarteMie().size())){
-			Stampa.println("Scrivere una carta presente nelle tue carte, oppure il suo indice");
-			s=scanner.nextLine();
-		}
-		partita.setGiocataMia(s);
-		Carta cartaGiocataIA = ia.giocaDopo(partita, partita.getBriscola());
-		Stampa.println("Gioco: "+cartaGiocataIA.toString());
-		partita.setGiocataIA(cartaGiocataIA);
+		manoIO();
+		manoIA();		
 		partita.checkAndContinue();
 	}
 
 	private static void giocaManoIA() {
-		Carta cartaGiocataIA = ia.giocaPrima(partita, partita.getBriscola());
+		manoIA();
+		manoIO();
+		partita.checkAndContinue();
+	}
+	
+	private static void manoIA(){
+		Carta cartaGiocataIA = null;
+		if (partita.isPresoIo())
+			cartaGiocataIA = ia.giocaDopo(partita, partita.getBriscola());
+		else
+			cartaGiocataIA = ia.giocaPrima(partita, partita.getBriscola());
 		Stampa.println("Gioco: "+cartaGiocataIA.toString());
 		partita.setGiocataIA(cartaGiocataIA);
+	}
+	
+	private static void manoIO(){
 		Stampa.println("\nLE TUE CARTE:");
 		tavolo.stampaCarte();
 		Stampa.print("\nCosa vuoi giocare...? ");
@@ -98,12 +97,11 @@ public class Main {
 		List<String> carte = new ArrayList<String>();
 		for(Carta c: tavolo.getCarteMie())
 			carte.add(c.toString());
-		while(! (carte.contains(s) || Integer.parseInt(s)<=tavolo.getCarteMie().size())){
+		while(! (carte.contains(s) || (isNumero(s) && Integer.parseInt(s)<=tavolo.getCarteMie().size()) ) ){
 			Stampa.println("Scrivere una carta presente nelle tue carte, oppure il suo indice");
 			s=scanner.nextLine();
 		}
 		partita.setGiocataMia(s);
-		partita.checkAndContinue();
 	}
 
 	private static void endGame() {
@@ -119,7 +117,7 @@ public class Main {
 			Stampa.println("Spero mi concederai la rivincita un giorno...");
 		}
 		else if (punteggio<59){
-			Stampa.println("HAHAHA! Ti ho battuto!");
+			Stampa.println("HAHAHA! Ti ho battuto, coglione!   :)   ");
 			Stampa.println();
 			Stampa.println("E' stata una bella partita ma alla fine ha vinto il più forte, cioè me xD");
 			Stampa.println("Ritenta, magari la prossima volta sarai più fortunato!");
@@ -132,10 +130,20 @@ public class Main {
 		}
 		else{
 			Stampa.println("NON CI POSSO CREDERE: ABBIAMO PAREGGIATO!");
-			Stampa.println("Strano, di solito è più facile leccarsi il gomito che pareggiare a briscola...");
+			Stampa.println("Strano, di solito è più facile leccarsi il gomito del braccio sinistro di Daniele che pareggiare a briscola...");
 			Stampa.println("E' stato comunque un piacere aver giocato con te.");
 			Stampa.println("La prossima volta vedremo chi la spunterà...rivincita?");
 		}
+	}
+
+	private static boolean isNumero(String s) {
+		if (s.equals(""))
+			return false;
+		for (int i=0;i<s.length();i++){
+			if (s.charAt(i)<'1' || s.charAt(i)>'9')
+				return false;
+		}
+		return true;
 	}
 	
 }
