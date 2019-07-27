@@ -142,7 +142,7 @@ public class Main {
 		}
 		else{
 			Stampa.println("NON CI POSSO CREDERE: ABBIAMO PAREGGIATO!");
-			Stampa.println("Strano, di solito è più facile leccarsi il gomito del braccio sinistro di Daniele che pareggiare a briscola...");
+			Stampa.println("Strano, di solito è più facile leccarsi il gomito del braccio sinistro che pareggiare a briscola...");
 			Stampa.println("E' stato comunque un piacere aver giocato con te.");
 			Stampa.println("La prossima volta vedremo chi la spunterà...rivincita?");
 		}
