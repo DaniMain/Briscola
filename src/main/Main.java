@@ -125,11 +125,11 @@ public class Main {
 			Stampa.println("COMPLIMENTI! HAI VINTO!");
 			Stampa.println();
 			Stampa.println("Sei veramente bravo!");
-			Stampa.println("Grazie per aver giocato con me! ;) ");
+			Stampa.println("Grazie per aver giocato con me!");
 			Stampa.println("Spero mi concederai la rivincita un giorno...");
 		}
 		else if (punteggio<59){
-			Stampa.println("HAHAHA! Ti ho battuto, coglione!   :)   ");
+			Stampa.println("HAHAHA! Ti ho battuto!");
 			Stampa.println();
 			Stampa.println("E' stata una bella partita ma alla fine ha vinto il più forte, cioè me xD");
 			Stampa.println("Ritenta, magari la prossima volta sarai più fortunato!");
