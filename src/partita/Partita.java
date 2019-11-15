@@ -10,7 +10,7 @@ public class Partita {
 	private Tavolo tavolo;
 //	private int contatoreMazzo;
 	private boolean iniziaIA,presoIo,fineMazzo;
-	private String briscola;
+	private Carta briscola;
 //	private Punti puntiMiei,puntiIA;
 
 	public Partita(){
@@ -35,7 +35,7 @@ public class Partita {
 		this.tavolo.aggiungiCarteMie(mazzo.pop());
 		this.tavolo.aggiungiCarteIA(mazzo.pop());
 		this.tavolo.aggiungiCarteMie(mazzo.pop());
-		this.briscola=mazzo.getCarta(0).getSeme();
+		this.briscola=mazzo.getCarta(0);
 		mazzo.briscolaAllaFine();
 //		contatoreMazzo = 6;
 //		setBriscola(this.mazzo.getCarta(39).getSeme());
@@ -49,7 +49,7 @@ public class Partita {
 		this.tavolo.aggiungiCarteIA(mazzo.pop());
 		this.tavolo.aggiungiCarteMie(mazzo.pop());
 		this.tavolo.aggiungiCarteIA(mazzo.pop());
-		this.briscola=mazzo.getCarta(0).getSeme();
+		this.briscola=mazzo.getCarta(0);
 		mazzo.briscolaAllaFine();
 		presoIo=true;
 //		contatoreMazzo = 6;
@@ -72,11 +72,11 @@ public class Partita {
 //		this.puntiIA.add(c);
 //	}
 
-	public String getBriscola() {
+	public Carta getBriscola() {
 		return briscola;
 	}
 
-	public void setBriscola(String briscola) {
+	public void setBriscola(Carta briscola) {
 		this.briscola = briscola;
 	}
 
@@ -159,14 +159,14 @@ public class Partita {
 	public void checkAndContinue(){
 		boolean manoMia;
 		if (this.presoIo){
-			if(this.tavolo.getCartaGiocataIO().isBetter(this.tavolo.getCartaGiocataIA(),this.briscola)){
+			if(this.tavolo.getCartaGiocataIO().isBetter(this.tavolo.getCartaGiocataIA(),this.briscola.getSeme())){
 				manoMia=true;
 			}
 			else{
 				manoMia=false;
 			}
 		}else{
-			if(this.tavolo.getCartaGiocataIA().isBetter(this.tavolo.getCartaGiocataIO(),this.briscola)){
+			if(this.tavolo.getCartaGiocataIA().isBetter(this.tavolo.getCartaGiocataIO(),this.briscola.getSeme())){
 				manoMia=false;
 			}
 			else{

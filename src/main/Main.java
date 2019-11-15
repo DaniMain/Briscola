@@ -15,6 +15,8 @@ public class Main {
 	private static Tavolo tavolo;
 	private static IA ia = new IA();
 	private static Scanner scanner;
+	private static ComandiSpeciali CS = new ComandiSpeciali();
+	private static List<String> comandiSpeciali = CS.getComandiSpeciali();
 	
 	public static void main(String[]args) throws InterruptedException{
 
@@ -40,6 +42,7 @@ public class Main {
 		partita=new Partita();
 		if(s.equals("si"))
 			partita.setIniziaIA(false);
+		
 		/* creazione della partita */
 		partita.creaPartita();
 		tavolo=partita.getTavolo();
@@ -48,60 +51,63 @@ public class Main {
 		Stampa.println("\n======= LA CARTA DI BRISCOLA E': "+tavolo.getMazzo().getCarta(tavolo.getMazzo().getMazzo().size()-1)+" =======");	
 		Stampa.println();
 		
+		/* esegui tante mani di gioco fino a che non si svuota il mazzo */ 
 		while(!tavolo.getMazzo().isEmpty()){
 			if (tavolo.getMazzo().getMazzo().size()<=2)
 				Stampa.println("======= ULTIME DUE CARTE DEL MAZZO! La carta di briscola è "+ tavolo.getMazzo().getCarta(1).toString().toUpperCase()+" =======\n");
-			if(partita.isPresoIo()){
-				giocaManoIO();
-			} else{
-				giocaManoIA();
-			}
+			giocaUnaMano();
 		}
 		
+		/* esegui le ultime tre mani */
 		while(tavolo.getCarteMie().size()>0){
-			if(partita.isPresoIo()){
-				giocaManoIO();
-			} else{
-				giocaManoIA();
-			}
+			giocaUnaMano();
 		}
 		
+		/* fine della partita: conteggio dei punti e mostra il vincitore */
 		Stampa.println("======= FINE DELLA PARTITA =======");
 		endGame();
 
 	}
+	
+	public static void giocaUnaMano() throws InterruptedException{
+		if(partita.isPresoIo()){
+			iniziaManoIO();
+		} else{
+			inziaManoIA();
+		}
+	}
 
-	private static void giocaManoIO() throws InterruptedException {
+	private static void iniziaManoIO() throws InterruptedException {
 		Thread.sleep(200);
-		manoIO();
+		giocaManoIO();
 		Thread.sleep(500);
-		manoIA();
+		giocaManoIA();
 		Thread.sleep(750);
 		partita.checkAndContinue();
 		Thread.sleep(200);
 	}
 
-	private static void giocaManoIA() throws InterruptedException {
+	private static void inziaManoIA() throws InterruptedException {
 		Thread.sleep(200);
-		manoIA();
+		giocaManoIA();
 		Thread.sleep(500);
-		manoIO();
+		giocaManoIO();
 		Thread.sleep(200);
 		partita.checkAndContinue();
 		Thread.sleep(200);
 	}
 	
-	private static void manoIA(){
+	private static void giocaManoIA(){
 		Carta cartaGiocataIA = null;
 		if (partita.isPresoIo())
-			cartaGiocataIA = ia.giocaDopo(partita, partita.getBriscola());
+			cartaGiocataIA = ia.giocaDopo(partita, partita.getBriscola().getSeme());
 		else
-			cartaGiocataIA = ia.giocaPrima(partita, partita.getBriscola());
+			cartaGiocataIA = ia.giocaPrima(partita, partita.getBriscola().getSeme());
 		Stampa.println("Gioco: "+cartaGiocataIA.toString());
 		partita.setGiocataIA(cartaGiocataIA);
 	}
 	
-	private static void manoIO(){
+	private static void giocaManoIO(){
 		Stampa.println("\nLE TUE CARTE:");
 		tavolo.stampaCarte();
 		Stampa.print("\nCosa vuoi giocare...? ");
@@ -110,6 +116,9 @@ public class Main {
 		for(Carta c: tavolo.getCarteMie())
 			carte.add(c.toString());
 		while(! (carte.contains(s) || (isNumero(s) && Integer.parseInt(s)<=tavolo.getCarteMie().size()) ) ){
+			if(comandiSpeciali.contains(s)){
+				CS.esegui(partita, s);
+			}
 			Stampa.println("Scrivere una carta presente nelle tue carte, oppure il suo indice");
 			s=scanner.nextLine();
 		}

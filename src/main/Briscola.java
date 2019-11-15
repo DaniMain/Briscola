@@ -18,9 +18,9 @@ public class Briscola {
 	public Carta lanciaIA(Partita p){
 		Carta ia;
 		if(p.isPresoIo())
-			ia = IA.giocaDopo(p, p.getBriscola());
+			ia = IA.giocaDopo(p, p.getBriscola().getSeme());
 		else
-			ia = IA.giocaPrima(p, p.getBriscola());
+			ia = IA.giocaPrima(p, p.getBriscola().getSeme());
 		return ia;
 	}
 	
