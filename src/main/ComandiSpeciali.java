@@ -14,6 +14,7 @@ public class ComandiSpeciali {
 	public ComandiSpeciali(){
 		comandiSpeciali.add("briscola");
 		comandiSpeciali.add("le sue carte");
+		comandiSpeciali.add("fine");
 	}
 	
 	public List<String> getComandiSpeciali(){
@@ -25,6 +26,8 @@ public class ComandiSpeciali {
 			briscola(partita);
 		else if(comando.equals("le sue carte"))
 			le_sue_carte(partita);
+		else if(comando.equals("fine"))
+			finisci_partita(partita);
 	}
 	
 	public void briscola(Partita partita){
@@ -36,6 +39,11 @@ public class ComandiSpeciali {
 		for(Carta c: partita.getTavolo().getCarteIA()){
 			Stampa.println(c.toString());
 		}
+	}
+	
+	public void finisci_partita(Partita partita){
+		partita.setGiocataMia(null);
+		partita.finePartita();
 	}
 
 }

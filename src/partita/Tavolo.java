@@ -145,7 +145,7 @@ public class Tavolo {
 		this.mazzo = m;
 	}
 	
-	public void stampaCarte(){
+	public void stampaCarteMie(){
 		int i=1;
 		for(Carta c: this.carteMie){
 			Stampa.println(i+") "+c.toString());

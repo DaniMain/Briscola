@@ -1,5 +1,11 @@
 package partita;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Scanner;
+
+import main.ComandiSpeciali;
+import main.IA;
 import mazzo.*;
 import stampa.Stampa;
 //import punti.*;
@@ -9,9 +15,13 @@ public class Partita {
 //	private Mazzo mazzo;
 	private Tavolo tavolo;
 //	private int contatoreMazzo;
-	private boolean iniziaIA,presoIo,fineMazzo;
+	private boolean iniziaIA,presoIo,fineMazzo,inCorso;
 	private Carta briscola;
 //	private Punti puntiMiei,puntiIA;
+	private static IA ia = new IA();
+	private static Scanner scanner = new Scanner(System.in);
+	private static ComandiSpeciali CS = new ComandiSpeciali();
+	private static List<String> comandiSpeciali = CS.getComandiSpeciali();
 
 	public Partita(){
 		this.tavolo = new Tavolo();
@@ -21,6 +31,7 @@ public class Partita {
 		//per default si presume che inizia l'IA
 		this.iniziaIA = true;
 		this.presoIo = false;
+		this.inCorso = true;
 //		this.contatoreMazzo = 0;
 //		this.fineMazzo = false;
 //		this.puntiMiei = new Punti();
@@ -121,6 +132,14 @@ public class Partita {
 		this.presoIo = !iniziaIA;
 	}
 	
+	public boolean isInCorso(){
+		return this.inCorso;
+	}
+
+	public void finePartita(){
+		this.inCorso = false;
+	}
+	
 	public void creaPartita(){
 		if (this.iniziaIA)
 			creaPartitaManoIA();
@@ -129,6 +148,10 @@ public class Partita {
 	}
 
 	public void setGiocataMia(String s) {
+		if(s==null){
+			this.tavolo.setCartaGiocataIO(null);
+			return;
+		}
 		if(s.length()==1){
 			Carta cartaGiocataIO = this.tavolo.getCartaMie(Integer.parseInt(s)-1);
 			this.tavolo.setCartaGiocataIO(cartaGiocataIO);
@@ -157,6 +180,8 @@ public class Partita {
 	}
 
 	public void checkAndContinue(){
+		if(tavolo.getCartaGiocataIO()==null)
+			return;
 		boolean manoMia;
 		if (this.presoIo){
 			if(this.tavolo.getCartaGiocataIO().isBetter(this.tavolo.getCartaGiocataIA(),this.briscola.getSeme())){
@@ -194,6 +219,124 @@ public class Partita {
 		}
 		this.tavolo.setCartaGiocataIO(null);
 		this.tavolo.setCartaGiocataIA(null);
+	}
+	
+	public void giocaUnaMano() throws InterruptedException{
+		if(isPresoIo()){
+			iniziaManoIO();
+		} else{
+			inziaManoIA();
+		}
+	}
+
+	private void iniziaManoIO() throws InterruptedException {
+		Thread.sleep(200);
+		giocaManoIO();
+		Thread.sleep(500);
+		giocaManoIA();
+		Thread.sleep(750);
+		checkAndContinue();
+		Thread.sleep(200);
+	}
+
+	private void inziaManoIA() throws InterruptedException {
+		Thread.sleep(200);
+		giocaManoIA();
+		Thread.sleep(500);
+		giocaManoIO();
+		Thread.sleep(200);
+		checkAndContinue();
+		Thread.sleep(200);
+	}
+	
+	private void giocaManoIA(){
+		Carta cartaGiocataIA = null;
+		if (isPresoIo()){
+			if(tavolo.getCartaGiocataIO()==null)
+				return;
+			cartaGiocataIA = ia.giocaDopo(this, getBriscola().getSeme());
+		}
+		else
+			cartaGiocataIA = ia.giocaPrima(this, getBriscola().getSeme());
+		Stampa.println("Gioco: "+cartaGiocataIA.toString());
+		setGiocataIA(cartaGiocataIA);
+	}
+	
+	private void giocaManoIO(){
+		Stampa.println("\nLE TUE CARTE:");
+		tavolo.stampaCarteMie();
+		Stampa.print("\nCosa vuoi giocare...? ");
+		String s = scanner.nextLine();
+		List<String> carte = new ArrayList<String>();
+		for(Carta c: tavolo.getCarteMie())
+			carte.add(c.toString());
+		while(inCorso && 
+				!(carte.contains(s)
+						|| (isNumero(s) && Integer.parseInt(s)<=tavolo.getCarteMie().size()) ) )
+		{
+			if(comandiSpeciali.contains(s)){
+				CS.esegui(this, s);
+			}
+			if(inCorso){
+				Stampa.println("Scrivere una carta presente nelle tue carte, oppure il suo indice");
+				s=scanner.nextLine();				
+			}
+		}
+		if(inCorso)
+			setGiocataMia(s);
+	}
+
+	public void endGame() throws InterruptedException {
+		if(!inCorso){
+			Stampa.println("\nPeccato... Mi stavo divertendo...");
+			Stampa.println("Ti aspetto per una partita vera!");
+			return;
+		}
+		finePartita();
+		Stampa.println("\nLe carte che hai collezionato sono:");
+		Stampa.println(tavolo.getPuntiMiei().toString());
+		int punteggio = tavolo.getPuntiMiei().contaPunti();
+		Stampa.println("\n\nHai totalizzato "+punteggio+" punti\n");
+		if (punteggio>60){
+			Stampa.println("COMPLIMENTI! HAI VINTO!");
+			Stampa.println();
+			Thread.sleep(1);
+			Stampa.println("Sei veramente bravo!");
+			Stampa.println("Grazie per aver giocato con me!");
+			Stampa.println("Spero mi concederai la rivincita un giorno...");
+		}
+		else if (punteggio<59){
+			Stampa.println("HAHAHA! Ti ho battuto!");
+			Stampa.println();
+			Thread.sleep(1);
+			Stampa.println("E' stata una bella partita ma alla fine ha vinto il più forte, cioè io!");
+			Stampa.println("Ritenta, magari la prossima volta sarai più fortunato!");
+		}
+		else if (punteggio==59){
+			Stampa.println("HAI PERSO! HAI FATTO 59!!!");
+			Thread.sleep(1);
+			Stampa.println("Come si dice: 'Meglio star fuori quando piove...");
+			Thread.sleep(2);
+			Stampa.println("...che giocare a briscola e fare 59!'");
+			Stampa.println("Ritenta, magari la prossima volta sarai più fortunato!");
+		}
+		else{
+			Stampa.println("NON CI POSSO CREDERE: ABBIAMO PAREGGIATO!");
+			Thread.sleep(1);
+			Stampa.println("Strano, è più facile leccarsi il gomito del braccio che pareggiare a briscola...");
+			Stampa.println("E' stato comunque un piacere aver giocato con te.");
+			Stampa.println("La prossima volta vedremo chi la spunterà...rivincita?");
+		}
+	}
+
+	private static boolean isNumero(String s) {
+		if (s.equals(""))
+			return false;
+		for (int i=0;i<s.length();i++){
+			if (s.charAt(i)<'1' || s.charAt(i)>'9')
+				return false;
+		}
+		return true;
 	}
 
 }
