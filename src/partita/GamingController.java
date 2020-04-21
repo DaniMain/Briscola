@@ -4,13 +4,14 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-import main.ComandiSpeciali;
 import main.IA;
-import mazzo.*;
+import main.Partita;
+import mazzo.Carta;
+import mazzo.Mazzo;
 import stampa.Stampa;
 //import punti.*;
 
-public class Partita {
+public class GamingController implements Partita{
 	
 //	private Mazzo mazzo;
 	private Tavolo tavolo;
@@ -18,12 +19,12 @@ public class Partita {
 	private boolean iniziaIA,presoIo,fineMazzo,inCorso;
 	private Carta briscola;
 //	private Punti puntiMiei,puntiIA;
-	private static IA ia = new IA();
+	private IA ia;
 	private static Scanner scanner = new Scanner(System.in);
-	private static ComandiSpeciali CS = new ComandiSpeciali();
-	private static List<String> comandiSpeciali = CS.getComandiSpeciali();
+//	private static ComandiSpeciali CS = new ComandiSpeciali();
+//	private static List<String> comandiSpeciali = CS.getComandiSpeciali();
 
-	public Partita(){
+	public GamingController(){
 		this.tavolo = new Tavolo();
 		Mazzo mazzo = new Mazzo();
 		mazzo.mischia();
@@ -32,6 +33,7 @@ public class Partita {
 		this.iniziaIA = true;
 		this.presoIo = false;
 		this.inCorso = true;
+		this.ia = new IA();
 //		this.contatoreMazzo = 0;
 //		this.fineMazzo = false;
 //		this.puntiMiei = new Punti();
@@ -136,6 +138,14 @@ public class Partita {
 		return this.inCorso;
 	}
 
+	public IA getIa() {
+		return ia;
+	}
+
+	public void setIa(IA ia) {
+		this.ia = ia;
+	}
+
 	public void finePartita(){
 		this.inCorso = false;
 	}
@@ -227,6 +237,8 @@ public class Partita {
 		} else{
 			inziaManoIA();
 		}
+		checkAndContinue();
+		Thread.sleep(200);
 	}
 
 	private void iniziaManoIO() throws InterruptedException {
@@ -235,8 +247,6 @@ public class Partita {
 		Thread.sleep(500);
 		giocaManoIA();
 		Thread.sleep(750);
-		checkAndContinue();
-		Thread.sleep(200);
 	}
 
 	private void inziaManoIA() throws InterruptedException {
@@ -244,8 +254,6 @@ public class Partita {
 		giocaManoIA();
 		Thread.sleep(500);
 		giocaManoIO();
-		Thread.sleep(200);
-		checkAndContinue();
 		Thread.sleep(200);
 	}
 	
@@ -274,9 +282,9 @@ public class Partita {
 				!(carte.contains(s)
 						|| (isNumero(s) && Integer.parseInt(s)<=tavolo.getCarteMie().size()) ) )
 		{
-			if(comandiSpeciali.contains(s)){
-				CS.esegui(this, s);
-			}
+//			if(comandiSpeciali.contains(s)){
+//				CS.esegui(this, s);
+//			}
 			if(inCorso){
 				Stampa.println("Scrivere una carta presente nelle tue carte, oppure il suo indice");
 				s=scanner.nextLine();				

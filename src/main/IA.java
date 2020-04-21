@@ -2,8 +2,7 @@ package main;
 
 import java.util.List;
 
-import mazzo.*;
-import partita.*;
+import mazzo.Carta;
 
 public class IA {
 	

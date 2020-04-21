@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import mazzo.Carta;
-import partita.Partita;
+import partita.MainController;
 import stampa.Stampa;
 
 public class ComandiSpeciali {
@@ -21,7 +21,7 @@ public class ComandiSpeciali {
 		return this.comandiSpeciali;
 	}
 
-	public void esegui(Partita partita, String comando) {
+	public void esegui(MainController partita, String comando) {
 		if(comando.equals("briscola"))
 			briscola(partita);
 		else if(comando.equals("le sue carte"))
@@ -30,18 +30,18 @@ public class ComandiSpeciali {
 			finisci_partita(partita);
 	}
 	
-	public void briscola(Partita partita){
+	public void briscola(MainController partita){
 		Stampa.print("La carta di briscola è: ");
 		Stampa.println(partita.getBriscola().toString());
 	}
 	
-	public void le_sue_carte(Partita partita){
+	public void le_sue_carte(MainController partita){
 		for(Carta c: partita.getTavolo().getCarteIA()){
 			Stampa.println(c.toString());
 		}
 	}
 	
-	public void finisci_partita(Partita partita){
+	public void finisci_partita(MainController partita){
 		partita.setGiocataMia(null);
 		partita.finePartita();
 	}

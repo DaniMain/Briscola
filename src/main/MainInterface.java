@@ -3,7 +3,7 @@ package main;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
 
-import partita.Partita;
+import partita.MainController;
 
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.SWT;
@@ -14,14 +14,14 @@ import org.eclipse.swt.events.SelectionEvent;
 public class MainInterface {
 
 	protected Shell shell;
-	private Partita partita;
+	private MainController partita;
 	private Briscola briscola;
 	private boolean ok;
 	private Label lblCartaInGiocoSua,lblCartaInGiocoMia,lblNewLabel;
 	private Button btnNewButton, btnNewButton_1, btnNewButton_2;
 
 	public MainInterface(){
-		this.partita = new Partita();
+		this.partita = new MainController();
 		this.briscola = new Briscola();
 		this.ok = false;
 		
@@ -236,7 +236,7 @@ public class MainInterface {
 		
 	}
 
-	public void gioca(Partita p) throws Exception{
+	public void gioca(MainController p) throws Exception{
 
 		/* mega while per la partita vera e propria */
 //		while(p.getContatoreMazzo()!=38){

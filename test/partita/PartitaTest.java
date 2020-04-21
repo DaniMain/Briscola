@@ -9,12 +9,12 @@ import mazzo.Mazzo;
 
 public class PartitaTest {
 	
-	private Partita partita;
+	private MainController partita;
 	private Mazzo mazzo;
 
 	@Before
 	public void setUp() throws Exception {
-		this.partita = new Partita();
+		this.partita = new MainController();
 		this.mazzo = new Mazzo();
 	}
 

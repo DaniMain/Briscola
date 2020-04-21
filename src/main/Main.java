@@ -2,13 +2,13 @@ package main;
 
 import java.util.Scanner;
 
-import partita.Partita;
+import partita.MainController;
 import partita.Tavolo;
 import stampa.Stampa;
 
 public class Main {
 	
-	private static Partita partita;
+	private static MainController mainController;
 	private static Tavolo tavolo;
 	private static Scanner scanner;
 	
@@ -33,13 +33,13 @@ public class Main {
 			s = scanner.nextLine();
 			Stampa.println();
 		}
-		partita=new Partita();
+		mainController=new MainController();
 		if(s.equals("si"))
-			partita.setIniziaIA(false);
+			mainController.setIniziaIA(false);
 		
 		/* creazione della partita */
-		partita.creaPartita();
-		tavolo=partita.getTavolo();
+		mainController.creaPartita();
+		tavolo=mainController.getTavolo();
 
 		Thread.sleep(500);
 		Stampa.println("\n======= LA CARTA DI BRISCOLA E': " + 
@@ -47,11 +47,11 @@ public class Main {
 		Stampa.println();
 		
 		/* esegui tante mani di gioco fino a che non finisce la partita*/ 
-		while(partita.isInCorso() && tavolo.getCarteMie().size()>0){ //!tavolo.getMazzo().isEmpty()){
+		while(mainController.isInCorso() && tavolo.getCarteMie().size()>0){ //!tavolo.getMazzo().isEmpty()){
 			if (tavolo.getMazzo().getMazzo().size()==2)
 				Stampa.println("======= ULTIME DUE CARTE DEL MAZZO! La carta di briscola è " +
 						tavolo.getMazzo().getCarta(1).toString().toUpperCase() + " =======\n");
-			partita.giocaUnaMano();
+			mainController.giocaUnaMano();
 		}
 		
 //		/* esegui le ultime tre mani */
@@ -61,7 +61,7 @@ public class Main {
 		
 		/* fine della partita: conteggio dei punti e mostra il vincitore */
 		Stampa.println("======= FINE DELLA PARTITA =======");
-		partita.endGame();
+		mainController.endGame();
 
 	}	
 	

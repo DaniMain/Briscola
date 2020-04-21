@@ -11,13 +11,17 @@ import javax.swing.JLabel;
 import javax.swing.SwingConstants;
 
 import mazzo.Carta;
-import partita.Partita;
+import partita.MainController;
+import partita.Tavolo;
 
 public class GamingWindow {
 
 	private JFrame frame;
-	private Partita partita;
+	private MainController partita;
+	private Tavolo tavolo;
+	private JLabel cartaIAgiocataLabel;
 	private JLabel cartaMiaGiocataLabel;
+	private JLabel outputLabel;
 
 	/**
 	 * Launch the application.
@@ -33,8 +37,9 @@ public class GamingWindow {
 	/**
 	 * Create the application.
 	 */
-	public GamingWindow(Partita partita) {
+	public GamingWindow(MainController partita) {
 		this.partita = partita;
+		this.tavolo = this.partita.getTavolo();
 		initialize();
 	}
 
@@ -53,7 +58,7 @@ public class GamingWindow {
 		labelforIA.setBounds(75, 124, 94, 14);
 		frame.getContentPane().add(labelforIA);
 
-		JLabel cartaIAgiocataLabel = new JLabel("");
+		cartaIAgiocataLabel = new JLabel("");
 		Carta cartaGiocataIA = partita.getTavolo().getCartaGiocataIA();
 		if (cartaGiocataIA != null) {
 			cartaIAgiocataLabel.setText(cartaGiocataIA.toString());
@@ -76,7 +81,7 @@ public class GamingWindow {
 		cartaMiaGiocataLabel.setBounds(163, 143, 116, 23);
 		frame.getContentPane().add(cartaMiaGiocataLabel);
 
-		JLabel outputLabel = new JLabel("outputLabel");
+		outputLabel = new JLabel("outputLabel");
 		outputLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		outputLabel.setFont(new Font("Roboto", Font.PLAIN, 24));
 		outputLabel.setBounds(138, 49, 172, 44);
@@ -127,13 +132,68 @@ public class GamingWindow {
 		cartaMiaGiocataLabel.setText(cartaGiocata.toString());
 		partita.getTavolo().setCartaGiocataIO(cartaGiocata);
 		if(partita.isPresoIo()) {
-			//procedi con la giocata dell'IA e poi il controllo
+			setGiocataIA();
 		}
-		else {
-			//procedi con il controllo
+		checkAndContinute();
+		if(!partita.isPresoIo()) {
+			setGiocataIA();
+			cartaIAgiocataLabel.setText(partita.getTavolo().getCartaGiocataIA().toString());
 		}
 	}
 	
+	public void setGiocataIA() {
+		Carta cartaGiocataIA = null;
+		if (partita.isPresoIo()){
+			if(tavolo.getCartaGiocataIO()==null)
+				return;
+			cartaGiocataIA = partita.getIa().giocaDopo(partita, partita.getBriscola().getSeme());
+		}
+		else
+			cartaGiocataIA = partita.getIa().giocaPrima(partita, partita.getBriscola().getSeme());
+		partita.setGiocataIA(cartaGiocataIA);
+		cartaIAgiocataLabel.setText(cartaGiocataIA.toString());
+	}
 	
+	private void checkAndContinute() {
+		boolean manoMia;
+		if (partita.isPresoIo()){
+			if(tavolo.getCartaGiocataIO().isBetter(
+					tavolo.getCartaGiocataIA(),partita.getBriscola().getSeme())){
+				manoMia=true;
+			}
+			else{
+				manoMia=false;
+			}
+		}else{
+			if(tavolo.getCartaGiocataIA().isBetter(
+					tavolo.getCartaGiocataIO(),partita.getBriscola().getSeme())){
+				manoMia=false;
+			}
+			else{
+				manoMia=true;
+			}
+		}
+		if(manoMia){
+			outputLabel.setText("Hai preso tu!");
+			tavolo.aggiungiPuntiMiei(tavolo.getCartaGiocataIO());
+			tavolo.aggiungiPuntiMiei(tavolo.getCartaGiocataIA());
+			if (!tavolo.getMazzo().isEmpty()){
+				tavolo.aggiungiCarteMie(tavolo.getMazzo().pop());
+				tavolo.aggiungiCarteIA(tavolo.getMazzo().pop());
+			}
+			partita.setPresoIo(true);
+		}else{
+			outputLabel.setText("Ho preso io!");
+			tavolo.aggiungiPuntiIA(tavolo.getCartaGiocataIO());
+			tavolo.aggiungiPuntiIA(tavolo.getCartaGiocataIA());
+			if (!tavolo.getMazzo().isEmpty()){
+				tavolo.aggiungiCarteIA(tavolo.getMazzo().pop());
+				tavolo.aggiungiCarteMie(tavolo.getMazzo().pop());
+			}
+			partita.setPresoIo(false);
+		}
+		tavolo.setCartaGiocataIO(null);
+		tavolo.setCartaGiocataIA(null);		
+	}
 	
 }
