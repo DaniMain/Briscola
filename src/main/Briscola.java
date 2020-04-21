@@ -1,6 +1,7 @@
 package main;
 
 import mazzo.Carta;
+import partita.Partita;
 
 public class Briscola {
 	

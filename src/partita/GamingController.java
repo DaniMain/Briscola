@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.Scanner;
 
 import main.IA;
-import main.Partita;
 import mazzo.Carta;
 import mazzo.Mazzo;
 import stampa.Stampa;
@@ -156,6 +155,71 @@ public class GamingController implements Partita{
 		else
 			creaPartitaManoIo();
 	}
+	
+//	public void giocaUnaMano() throws InterruptedException{
+//		if(isPresoIo()){
+//			iniziaManoIO();
+//		} else{
+//			inziaManoIA();
+//		}
+//		checkAndContinue();
+//		Thread.sleep(200);
+//	}
+//
+//	private void iniziaManoIO() throws InterruptedException {
+//		Thread.sleep(200);
+//		giocaManoIO();
+//		Thread.sleep(500);
+//		giocaManoIA();
+//		Thread.sleep(750);
+//	}
+//
+//	private void inziaManoIA() throws InterruptedException {
+//		Thread.sleep(200);
+//		giocaManoIA();
+//		Thread.sleep(500);
+//		giocaManoIO();
+//		Thread.sleep(200);
+//	}
+	
+	public Carta giocaManoIA(){
+		Carta cartaGiocataIA = null;
+		if (isPresoIo()){
+			if(tavolo.getCartaGiocataIO()==null)
+				return null;
+			cartaGiocataIA = ia.giocaDopo(this, getBriscola().getSeme());
+		}
+		else
+			cartaGiocataIA = ia.giocaPrima(this, getBriscola().getSeme());
+//		Stampa.println("Gioco: "+cartaGiocataIA.toString());
+		setGiocataIA(cartaGiocataIA);
+		return cartaGiocataIA;
+	}
+	
+	public void giocaManoIO(Carta cartaGiocata){
+//		Stampa.println("\nLE TUE CARTE:");
+//		tavolo.stampaCarteMie();
+//		Stampa.print("\nCosa vuoi giocare...? ");
+//		String cartaDaGiocare = scanner.nextLine();
+		String cartaDaGiocare = cartaGiocata.toString();
+		List<String> carte = new ArrayList<String>();
+		for(Carta c: tavolo.getCarteMie())
+			carte.add(c.toString());
+		while(inCorso && 
+				!(carte.contains(cartaDaGiocare)
+						|| (isNumero(cartaDaGiocare) && Integer.parseInt(cartaDaGiocare)<=tavolo.getCarteMie().size()) ) )
+		{
+//			if(comandiSpeciali.contains(s)){
+//				CS.esegui(this, s);
+//			}
+			if(inCorso){
+				Stampa.println("Scrivere una carta presente nelle tue carte, oppure il suo indice");
+				cartaDaGiocare=scanner.nextLine();				
+			}
+		}
+		if(inCorso)
+			setGiocataMia(cartaDaGiocare);
+	}
 
 	public void setGiocataMia(String s) {
 		if(s==null){
@@ -189,9 +253,10 @@ public class GamingController implements Partita{
 		tavolo.removeCartaIA(cartaGiocataIA.toString());
 	}
 
-	public void checkAndContinue(){
+	public String checkAndContinue(){
+		String outputForOutputLabel = null;
 		if(tavolo.getCartaGiocataIO()==null)
-			return;
+			return outputForOutputLabel;
 		boolean manoMia;
 		if (this.presoIo){
 			if(this.tavolo.getCartaGiocataIO().isBetter(this.tavolo.getCartaGiocataIA(),this.briscola.getSeme())){
@@ -209,7 +274,7 @@ public class GamingController implements Partita{
 			}
 		}
 		if(manoMia){
-			Stampa.println("\nHAI PRESO TU!\n");
+			outputForOutputLabel = "HAI PRESO TU!";
 			this.tavolo.aggiungiPuntiMiei(this.tavolo.getCartaGiocataIO());
 			this.tavolo.aggiungiPuntiMiei(this.tavolo.getCartaGiocataIA());
 			if (!this.tavolo.getMazzo().isEmpty()){
@@ -218,7 +283,7 @@ public class GamingController implements Partita{
 			}
 			this.setPresoIo(true);
 		}else{
-			Stampa.println("\nHO PRESO IO!\n");
+			outputForOutputLabel = "HO PRESO IO!";
 			this.tavolo.aggiungiPuntiIA(this.tavolo.getCartaGiocataIO());
 			this.tavolo.aggiungiPuntiIA(this.tavolo.getCartaGiocataIA());
 			if (!this.tavolo.getMazzo().isEmpty()){
@@ -229,69 +294,7 @@ public class GamingController implements Partita{
 		}
 		this.tavolo.setCartaGiocataIO(null);
 		this.tavolo.setCartaGiocataIA(null);
-	}
-	
-	public void giocaUnaMano() throws InterruptedException{
-		if(isPresoIo()){
-			iniziaManoIO();
-		} else{
-			inziaManoIA();
-		}
-		checkAndContinue();
-		Thread.sleep(200);
-	}
-
-	private void iniziaManoIO() throws InterruptedException {
-		Thread.sleep(200);
-		giocaManoIO();
-		Thread.sleep(500);
-		giocaManoIA();
-		Thread.sleep(750);
-	}
-
-	private void inziaManoIA() throws InterruptedException {
-		Thread.sleep(200);
-		giocaManoIA();
-		Thread.sleep(500);
-		giocaManoIO();
-		Thread.sleep(200);
-	}
-	
-	private void giocaManoIA(){
-		Carta cartaGiocataIA = null;
-		if (isPresoIo()){
-			if(tavolo.getCartaGiocataIO()==null)
-				return;
-			cartaGiocataIA = ia.giocaDopo(this, getBriscola().getSeme());
-		}
-		else
-			cartaGiocataIA = ia.giocaPrima(this, getBriscola().getSeme());
-		Stampa.println("Gioco: "+cartaGiocataIA.toString());
-		setGiocataIA(cartaGiocataIA);
-	}
-	
-	private void giocaManoIO(){
-		Stampa.println("\nLE TUE CARTE:");
-		tavolo.stampaCarteMie();
-		Stampa.print("\nCosa vuoi giocare...? ");
-		String s = scanner.nextLine();
-		List<String> carte = new ArrayList<String>();
-		for(Carta c: tavolo.getCarteMie())
-			carte.add(c.toString());
-		while(inCorso && 
-				!(carte.contains(s)
-						|| (isNumero(s) && Integer.parseInt(s)<=tavolo.getCarteMie().size()) ) )
-		{
-//			if(comandiSpeciali.contains(s)){
-//				CS.esegui(this, s);
-//			}
-			if(inCorso){
-				Stampa.println("Scrivere una carta presente nelle tue carte, oppure il suo indice");
-				s=scanner.nextLine();				
-			}
-		}
-		if(inCorso)
-			setGiocataMia(s);
+		return outputForOutputLabel;
 	}
 
 	public void endGame() throws InterruptedException {

@@ -1,7 +1,7 @@
-package main;
+package partita;
 
+import main.IA;
 import mazzo.Carta;
-import partita.Tavolo;
 
 public interface Partita {
 	
@@ -21,8 +21,7 @@ public interface Partita {
 	public void creaPartita();
 	public void setGiocataMia(String s);
 	public void setGiocataIA(Carta cartaGiocataIA);
-	public void checkAndContinue();
-	public void giocaUnaMano() throws InterruptedException;
+//	public void giocaUnaMano() throws InterruptedException;
 	public void endGame() throws InterruptedException;
 	
 }

@@ -3,6 +3,7 @@ package main;
 import java.util.List;
 
 import mazzo.Carta;
+import partita.Partita;
 
 public class IA {
 	

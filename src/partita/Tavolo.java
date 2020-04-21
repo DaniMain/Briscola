@@ -8,9 +8,10 @@ import punti.*;
 import stampa.Stampa;
 
 public class Tavolo {
-	
+
 	private List<Carta> carteIA;
-	private List<Carta> carteMie;
+//	private List<Carta> carteMie;
+	private Carta[] carteMie;
 	private Carta[] carteInGioco;
 	private Carta[] ultimaPresa;
 	private Carta cartaGiocataIO;
@@ -19,10 +20,11 @@ public class Tavolo {
 	private Punti puntiMiei;
 	private Mazzo mazzo;
 	private int indcgm, indcgs;
-	
-	public Tavolo(){
+
+	public Tavolo() {
 		this.carteIA = new ArrayList<Carta>();
-		this.carteMie = new ArrayList<Carta>();
+//		this.carteMie = new ArrayList<Carta>();
+		this.carteMie = new Carta[3];
 		this.carteInGioco = new Carta[2];
 		this.ultimaPresa = new Carta[2];
 		this.puntiIA = new Punti();
@@ -30,7 +32,7 @@ public class Tavolo {
 		this.indcgm = 0;
 		this.indcgs = 0;
 	}
-	
+
 	public Carta getCartaGiocataIO() {
 		return cartaGiocataIO;
 	}
@@ -98,7 +100,7 @@ public class Tavolo {
 	public void aggiungiCarteInGioco(Carta c, int pos) {
 		this.carteInGioco[pos] = c;
 	}
-	
+
 	public void aggiungiCarteInGiocoSua(Carta c) { // il primo posto è riservato alla carta sua
 		this.carteInGioco[0] = c;
 	}
@@ -106,11 +108,11 @@ public class Tavolo {
 	public void aggiungiCarteInGiocoMia(Carta c) { // il secondo posto è riservato alla carta mia
 		this.carteInGioco[1] = c;
 	}
-	
+
 	public List<Carta> getCarteIA() {
 		return carteIA;
 	}
-	
+
 	public Carta getCartaIA(int pos) {
 		return carteIA.get(pos);
 	}
@@ -123,49 +125,83 @@ public class Tavolo {
 	}
 
 	public List<Carta> getCarteMie() {
-		return this.carteMie;
+//		return this.carteMie;
+		List<Carta> carteArray = new ArrayList<>();
+		for (Carta c : this.carteMie) {
+			if (c != null) {
+				carteArray.add(c);
+			}
+		}
+		return carteArray;
 	}
-	
+
 	public Carta getCartaMie(int pos) {
-		return this.carteMie.get(pos);
+//		return this.carteMie.get(pos);
+
+//		return this.carteMie[pos];
+
+		return this.getCarteMie().get(pos);
 	}
 
 	public void aggiungiCarteMie(Carta c) {
+//		this.carteMie.add(c);
+
 //		this.carteMie[pos] = c;
 //		if(this.carteMie.size()>pos)
 //			this.carteMie.remove(pos);
-		this.carteMie.add(c);
-	}
-	
-	public Mazzo getMazzo(){
-		return this.mazzo;
-	}
-	
-	public void setMazzo(Mazzo m){
-		this.mazzo = m;
-	}
-	
-	public void stampaCarteMie(){
-		int i=1;
-		for(Carta c: this.carteMie){
-			Stampa.println(i+") "+c.toString());
-			i++;
+
+		for (int i = 0; i < this.carteMie.length; i++) {
+			if (carteMie[i] == null) {
+				carteMie[i] = c;
+				break;
+			}
 		}
 	}
 
-	public void removeCartaMie(String string) {
-		int pos = 0;
-		for(Carta c: this.carteMie){
-			if (c.toString().equals(string))
-				break;
-			pos++;
+	public Mazzo getMazzo() {
+		return this.mazzo;
+	}
+
+	public void setMazzo(Mazzo m) {
+		this.mazzo = m;
+	}
+
+	public void stampaCarteMie() {
+		int i = 1;
+		for (Carta c : this.carteMie) {
+			if (c != null) {
+				Stampa.println(i + ") " + c.toString());
+				i++;
+			}
 		}
-		this.carteMie.remove(pos);
+	}
+
+	public void removeCartaMie(String cartaDaRimuovere) {
+//		int pos = 0;
+//		for(Carta c: this.carteMie){
+//			if (c.toString().equals(string))
+//				break;
+//			pos++;
+//		}
+//		this.carteMie.remove(pos);
+		
+		int nullable;
+		for (nullable = 0; nullable<this.carteMie.length; nullable++) {
+			if(carteMie[nullable]!=null) {
+				break;
+			}
+		}
+		for (int i = nullable; i < this.carteMie.length; i++) {
+			if (carteMie[i].toString().equals(cartaDaRimuovere)) {
+				carteMie[i] = null;
+				break;
+			}
+		}
 	}
 
 	public void removeCartaIA(String string) {
 		int pos = 0;
-		for(Carta c: this.carteIA){
+		for (Carta c : this.carteIA) {
 			if (c.toString().equals(string))
 				break;
 			pos++;

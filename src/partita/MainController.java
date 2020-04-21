@@ -6,7 +6,6 @@ import java.util.Scanner;
 
 import main.ComandiSpeciali;
 import main.IA;
-import main.Partita;
 import mazzo.Carta;
 import mazzo.Mazzo;
 import stampa.Stampa;
@@ -183,14 +182,16 @@ public class MainController implements Partita {
 	public void setGiocataIA(Carta cartaGiocataIA) {
 		this.tavolo.setCartaGiocataIA(cartaGiocataIA);
 		for(Carta c: this.tavolo.getCarteMie())
-			if (c.toString().equals(cartaGiocataIA.toString())){
-				cartaGiocataIA = c;
-				break;
+			if(c!=null) {
+				if (c.toString().equals(cartaGiocataIA.toString())){
+					cartaGiocataIA = c;
+					break;
+				}
 			}
 		tavolo.removeCartaIA(cartaGiocataIA.toString());
 	}
 
-	public void checkAndContinue(){
+	private void checkAndContinue(){
 		if(tavolo.getCartaGiocataIO()==null)
 			return;
 		boolean manoMia;

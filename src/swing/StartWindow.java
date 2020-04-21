@@ -10,7 +10,7 @@ import javax.swing.JFrame;
 import javax.swing.JRadioButton;
 import javax.swing.JTextPane;
 
-import partita.MainController;
+import partita.GamingController;
 
 public class StartWindow {
 
@@ -68,11 +68,14 @@ public class StartWindow {
 		JButton startButton = new JButton("START");
 		startButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				MainController partita = new MainController();
+				GamingController partita = new GamingController();
 				partita.creaPartita();
 				partita.setIniziaIA(!iniziaRadio.isSelected());
 				if(!partita.isPresoIo()) {
-					new GamingWindow(partita).setGiocataIA();
+//					new GamingWindow(partita).setGiocataIA();	
+//					partita.setGiocataIA(partita.getIa().giocaPrima(partita, partita.getBriscola().getSeme()));
+//					partita.giocaUnaMano();
+					partita.giocaManoIA();
 				}
 				frame.setVisible(false);
 				launchGame(partita);
@@ -82,7 +85,7 @@ public class StartWindow {
 		frame.getContentPane().add(startButton);
 	}
 	
-	private void launchGame(MainController partita) {
+	private void launchGame(GamingController partita) {
 		new GamingWindow(partita).main();
 	}
 }
