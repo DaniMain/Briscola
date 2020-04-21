@@ -24,6 +24,7 @@ public class Briscola {
 		return ia;
 	}
 	
+	@SuppressWarnings("unlikely-arg-type")
 	public String ConfrontoPresa(Partita p) throws Exception {
 		String presoIo="Hai preso tu",presoIA="Ho preso io",presa;
 		if (p.getTavolo().getCarteInGioco()[0]==null||p.getTavolo().getCarteInGioco()[1]==null)
