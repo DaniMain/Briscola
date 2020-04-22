@@ -33,6 +33,9 @@ public class Punti {
 	
 	@Override
 	public String toString(){
+		if(this.getPunti().isEmpty()) {
+			return "Non hai collezionato nessuna carta!";
+		}
 		StringBuilder sb = new StringBuilder();
 		for (Carta c: this.getPunti()){
 			sb.append(c.toString());
@@ -45,13 +48,16 @@ public class Punti {
 	}
 
 	public String toStringTextArea(){
+		if(this.getPunti().isEmpty()) {
+			return "Non hai collezionato nessuna carta!";
+		}
 		StringBuilder sb = new StringBuilder();
 		for (Carta c: this.getPunti()){
 			sb.append(c.toString());
 			sb.append("\n");
 		}
 		int fine = sb.toString().length();
-		int inizio = fine-2;
+		int inizio = fine-1;
 		sb.replace(inizio, fine, "");
 		return sb.toString();
 	}

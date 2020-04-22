@@ -22,6 +22,8 @@ public class GamingController implements Partita{
 	private static Scanner scanner = new Scanner(System.in);
 //	private static ComandiSpeciali CS = new ComandiSpeciali();
 //	private static List<String> comandiSpeciali = CS.getComandiSpeciali();
+	private String risultatoPartita;
+	private String descrizioneFinale;
 
 	public GamingController(){
 		this.tavolo = new Tavolo();
@@ -143,6 +145,22 @@ public class GamingController implements Partita{
 
 	public void setIa(IA ia) {
 		this.ia = ia;
+	}
+
+	public String getRisultatoPartita() {
+		return risultatoPartita;
+	}
+
+	public void setRisultatoPartita(String risultatoPartita) {
+		this.risultatoPartita = risultatoPartita;
+	}
+
+	public String getDescrizioneFinale() {
+		return descrizioneFinale;
+	}
+
+	public void setDescrizioneFinale(String descrizioneFinale) {
+		this.descrizioneFinale = descrizioneFinale;
 	}
 
 	public void finePartita(){
@@ -297,46 +315,61 @@ public class GamingController implements Partita{
 		return outputForOutputLabel;
 	}
 
-	public void endGame() throws InterruptedException {
-		if(!inCorso){
-			Stampa.println("\nPeccato... Mi stavo divertendo...");
-			Stampa.println("Ti aspetto per una partita vera!");
+	public void endGame() {
+		if(this.isInCorso()){
+//			Stampa.println("\nPeccato... Mi stavo divertendo...");
+//			Stampa.println("Ti aspetto per una partita vera!");
+			this.setRisultatoPartita("HAI ABBANDONATO LA PARTITA");
+			this.setDescrizioneFinale("Peccato... Mi stavo divertendo...\n"
+					+ "Ti aspetto per una partita vera!");
 			return;
 		}
 		finePartita();
-		Stampa.println("\nLe carte che hai collezionato sono:");
-		Stampa.println(tavolo.getPuntiMiei().toString());
+//		Stampa.println("\nLe carte che hai collezionato sono:");
+//		Stampa.println(tavolo.getPuntiMiei().toString());
 		int punteggio = tavolo.getPuntiMiei().contaPunti();
-		Stampa.println("\n\nHai totalizzato "+punteggio+" punti\n");
+//		Stampa.println("\n\nHai totalizzato "+punteggio+" punti\n");
 		if (punteggio>60){
-			Stampa.println("COMPLIMENTI! HAI VINTO!");
-			Stampa.println();
-			Thread.sleep(1);
-			Stampa.println("Sei veramente bravo!");
-			Stampa.println("Grazie per aver giocato con me!");
-			Stampa.println("Spero mi concederai la rivincita un giorno...");
+//			Stampa.println("COMPLIMENTI! HAI VINTO!");
+//			Stampa.println();
+//			Stampa.println("Sei veramente bravo!");
+//			Stampa.println("Grazie per aver giocato con me!");
+//			Stampa.println("Spero mi concederai la rivincita un giorno...");
+			this.setRisultatoPartita("COMPLMENTI! HAI VINTO");
+			this.setDescrizioneFinale("Hai collezionato " + punteggio + " punti\n"
+					+ "\nSei veramente bravo!\n"
+					+ "Grazie per aver giocato con me!\n"
+					+ "Spero mi concederai la rivincita un giorno...");
 		}
 		else if (punteggio<59){
-			Stampa.println("HAHAHA! Ti ho battuto!");
-			Stampa.println();
-			Thread.sleep(1);
-			Stampa.println("E' stata una bella partita ma alla fine ha vinto il più forte, cioè io!");
-			Stampa.println("Ritenta, magari la prossima volta sarai più fortunato!");
+//			Stampa.println("HAHAHA! Ti ho battuto!");
+//			Stampa.println();
+//			Stampa.println("E' stata una bella partita ma alla fine ha vinto il più forte, cioè io!");
+//			Stampa.println("Ritenta, magari la prossima volta sarai più fortunato!");
+			this.setRisultatoPartita("TI HO BATTUTO!");
+			this.setDescrizioneFinale("Hai collezionato " + punteggio + " punti\n"
+					+ "\nE' stata  una bella partita ma alla fine ha vinto il più forte, cioè io!\n"
+					+ "Ritenta, magari la prossima volta sarai più fortunato!");
 		}
 		else if (punteggio==59){
-			Stampa.println("HAI PERSO! HAI FATTO 59!!!");
-			Thread.sleep(1);
-			Stampa.println("Come si dice: 'Meglio star fuori quando piove...");
-			Thread.sleep(2);
-			Stampa.println("...che giocare a briscola e fare 59!'");
-			Stampa.println("Ritenta, magari la prossima volta sarai più fortunato!");
+//			Stampa.println("HAI PERSO! HAI FATTO 59!!!");
+//			Stampa.println("Come si dice: 'Meglio star fuori quando piove...");
+//			Stampa.println("...che giocare a briscola e fare 59!'");
+//			Stampa.println("Ritenta, magari la prossima volta sarai più fortunato!");
+			this.setRisultatoPartita("HAI PERSO! HAI FATTO 59!!!");
+			this.setDescrizioneFinale("Come si dice: 'Meglio star fuori quando piove...\n"
+					+ "...che giocare a briscola e fare 59!'\n"
+					+ "Ritenta, magari la prossima volta sarai più fortunato!");
 		}
 		else{
-			Stampa.println("NON CI POSSO CREDERE: ABBIAMO PAREGGIATO!");
-			Thread.sleep(1);
-			Stampa.println("Strano, è più facile leccarsi il gomito del braccio che pareggiare a briscola...");
-			Stampa.println("E' stato comunque un piacere aver giocato con te.");
-			Stampa.println("La prossima volta vedremo chi la spunterà...rivincita?");
+//			Stampa.println("NON CI POSSO CREDERE: ABBIAMO PAREGGIATO!");
+//			Stampa.println("Strano, è più facile leccarsi il gomito del braccio che pareggiare a briscola...");
+//			Stampa.println("E' stato comunque un piacere aver giocato con te.");
+//			Stampa.println("La prossima volta vedremo chi la spunterà...rivincita?");
+			this.setRisultatoPartita("NON CI POSSO CREDERE: ABBIAMO PAREGGIATO!");
+			this.setDescrizioneFinale("Strano, è più facile leccarsi il gomito del braccio che pareggiare a briscola...\n"
+					+ "E' stato comunque un piacere aver giocato con te.\n"
+					+ "La prossima volta vedremo chi la spunterà... Rivincita?");
 		}
 	}
 

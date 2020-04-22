@@ -3,10 +3,12 @@ package gui;
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JTextArea;
+import javax.swing.SwingConstants;
 
 import partita.GamingController;
 import javax.swing.JScrollPane;
-import javax.swing.JTextArea;
 
 public class EndWindow {
 
@@ -41,19 +43,31 @@ public class EndWindow {
 		frame.setBounds(100, 100, 450, 300);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
+
+		JLabel resultLabel = new JLabel(partita.getRisultatoPartita());
+		resultLabel.setHorizontalAlignment(SwingConstants.CENTER);
+		resultLabel.setBounds(10, 11, 414, 46);
+		frame.getContentPane().add(resultLabel);
+
+		JTextArea descrizioneTextArea = new JTextArea(partita.getDescrizioneFinale());
+		descrizioneTextArea.setEditable(false);
+		descrizioneTextArea.setBounds(10, 68, 414, 80);
+		frame.getContentPane().add(descrizioneTextArea);
 		
 		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(26, 28, 164, 117);
+		scrollPane.setBounds(10, 159, 414, 91);
 		frame.getContentPane().add(scrollPane);
 		
-		textArea = new JTextArea();
-		textArea.setEditable(false);
-		scrollPane.setViewportView(textArea);
-		implementTextArea(textArea);
+				textArea = new JTextArea();
+				scrollPane.setViewportView(textArea);
+				textArea.setEditable(false);
+				implementTextArea(textArea);
+				
+				JLabel carteCollezionateLabel = new JLabel("Hai collezionato le seguenti carte:");
+				scrollPane.setColumnHeaderView(carteCollezionateLabel);
 	}
-	
+
 	private void implementTextArea(JTextArea textArea) {
 		textArea.setText(partita.getTavolo().getPuntiMiei().toStringTextArea());
 	}
-	
 }
