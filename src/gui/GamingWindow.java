@@ -22,6 +22,7 @@ public class GamingWindow {
 	private JLabel cartaIAgiocataLabel;
 	private JLabel cartaMiaGiocataLabel;
 	private JLabel outputLabel;
+	private int tempoRisposta;
 
 	/**
 	 * Launch the application.
@@ -39,6 +40,7 @@ public class GamingWindow {
 	 */
 	public GamingWindow(GamingController partita) {
 		this.partita = partita;
+		this.tempoRisposta = 250;
 		initialize();
 	}
 
@@ -83,7 +85,7 @@ public class GamingWindow {
 		outputLabel = new JLabel("");
 		outputLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		outputLabel.setFont(new Font("Roboto", Font.PLAIN, 24));
-		outputLabel.setBounds(138, 49, 172, 44);
+		outputLabel.setBounds(10, 49, 414, 44);
 		frame.getContentPane().add(outputLabel);
 
 		JLabel cartaDiBriscolaLabel = new JLabel("la carta di briscola \u00E8:");
@@ -114,6 +116,15 @@ public class GamingWindow {
 		buttonImplementation(carta3Button, pos3);
 		carta3Button.setBounds(308, 190, 116, 35);
 		frame.getContentPane().add(carta3Button);
+		
+		JButton terminaButton = new JButton("termina");
+		terminaButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				launchEndGame();
+			}
+		});
+		terminaButton.setBounds(335, 236, 89, 23);
+		frame.getContentPane().add(terminaButton);
 
 	}
 
@@ -126,6 +137,7 @@ public class GamingWindow {
 		}
 		button.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+				button.setEnabled(false);
 				giocata(pos);
 			}
 		});
@@ -133,8 +145,11 @@ public class GamingWindow {
 
 	private void giocata(int pos) {
 		Carta cartaGiocata = partita.getTavolo().getCartaMie(pos);
+		if (partita.getTavolo().getMazzo().getMazzo().size()==2) {
+			outputLabel.setText("ULTIME DUE CARTE DEL MAZZO");
+		}
 		/* dichiaro la carta che gioco */
-		timing(new Timer(0,giocoCarta(cartaGiocata)));
+		timing(new Timer(0, giocoCarta(cartaGiocata)));
 		System.out.println("1");
 		
 	}
@@ -148,13 +163,13 @@ public class GamingWindow {
 				/* se tocca all'IA dichiara la carta che gioca e controllo chi ha preso */
 				if (partita.isPresoIo()) {
 					Carta cartaGiocataIA = partita.giocaManoIA();
-					timing(new Timer(2000, dichiaraCartaIA(cartaIAgiocataLabel, cartaGiocataIA.toString())));
+					timing(new Timer(tempoRisposta, dichiaraCartaIA(cartaIAgiocataLabel, cartaGiocataIA.toString())));
 					System.out.println("1b");
 				}
 				/* altrimenti controllo direttamente chi ha preso */
 				else {
 					String outputString = partita.checkAndContinue();
-					timing(new Timer(2000, checkAndContinue(outputString)));
+					timing(new Timer(tempoRisposta, checkAndContinue(outputString)));
 					System.out.println("2");
 				}
 			}
@@ -168,7 +183,7 @@ public class GamingWindow {
 				String outputString = partita.checkAndContinue();
 				
 				/* controllo chi ha preso */
-				timing(new Timer(2000, checkAndContinue(outputString)));
+				timing(new Timer(tempoRisposta, checkAndContinue(outputString)));
 				System.out.println("2");
 			}
 		};
@@ -181,7 +196,7 @@ public class GamingWindow {
 				outputLabel.setText(outputString);
 				
 				/* aggiorno le carte che ho in mano */
-				timing(new Timer(1000, aggiornoCarteMie()));
+				timing(new Timer(tempoRisposta, aggiornoCarteMie()));
 				System.out.println("3");
 			}
 		};
@@ -194,7 +209,13 @@ public class GamingWindow {
 				int pos = 0;
 				for (Component c : frame.getContentPane().getComponents()) {
 					if (c.getClass() == JButton.class) {
-						((JButton) c).setText(partita.getTavolo().getCartaMie(pos).toString());
+						if(partita.getTavolo().getCartaMie(pos)!=null) {
+							((JButton) c).setText(partita.getTavolo().getCartaMie(pos).toString());
+							((JButton) c).setEnabled(true); 
+						}
+						else {
+							((JButton) c).setVisible(false);
+						}
 						pos++;
 						if (pos==3) {
 							break;
@@ -206,39 +227,42 @@ public class GamingWindow {
 				if (!partita.isPresoIo()) {
 					partita.giocaManoIA();
 					Carta cartaGiocataIA = partita.getTavolo().getCartaGiocataIA();
-					timing(new Timer(0, aggiornoCartaGiocataIA(cartaIAgiocataLabel,
-							cartaMiaGiocataLabel,
-							cartaGiocataIA.toString())));
+					timing(new Timer(0, aggiornoCartaGiocataIA(cartaGiocataIA.toString())));
 					System.out.println("3b");
 				}
 				/* altrimenti svuoto tutte le label */
 				else {
-					timing(new Timer(0, svuotaLabel(cartaIAgiocataLabel, cartaMiaGiocataLabel)));
+					timing(new Timer(0, svuotaLabel()));
 					System.out.println("3c");
 				}
+				
+				if(!partita.isInCorso()) {
+					launchEndGame();
+				}
 			}
+			
 		};
 
 	}
 
-	private ActionListener aggiornoCartaGiocataIA(JLabel cartaIAgiocataLabel,
-			JLabel cartaMiaGiocataLabel,
-			String cartaGiocataIA) {
+	private ActionListener aggiornoCartaGiocataIA(String cartaGiocataIA) {
 		return new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				cartaIAgiocataLabel.setText(cartaGiocataIA.toString());
 				cartaMiaGiocataLabel.setText("");
+				outputLabel.setText("");
 			}
 		};
 	}
 
-	private ActionListener svuotaLabel(JLabel cartaIAgiocataLabel, JLabel cartaMiaGiocataLabel) {
+	private ActionListener svuotaLabel() {
 		return new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				cartaIAgiocataLabel.setText("");
 				cartaMiaGiocataLabel.setText("");
+				outputLabel.setText("");
 			}
 		};
 	}
@@ -247,5 +271,9 @@ public class GamingWindow {
 		timer.setRepeats(false);
 		timer.start();
 	}
-
+	
+	private void launchEndGame() {
+		new EndWindow(this.partita).main();
+		this.frame.setVisible(false);
+	}
 }

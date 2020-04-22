@@ -44,4 +44,16 @@ public class Punti {
 		return sb.toString();
 	}
 
+	public String toStringTextArea(){
+		StringBuilder sb = new StringBuilder();
+		for (Carta c: this.getPunti()){
+			sb.append(c.toString());
+			sb.append("\n");
+		}
+		int fine = sb.toString().length();
+		int inizio = fine-2;
+		sb.replace(inizio, fine, "");
+		return sb.toString();
+	}
+
 }
