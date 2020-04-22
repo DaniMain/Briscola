@@ -19,7 +19,6 @@ public class GamingWindow {
 
 	private JFrame frame;
 	private GamingController partita;
-//	private Tavolo tavolo;
 	private JLabel cartaIAgiocataLabel;
 	private JLabel cartaMiaGiocataLabel;
 	private JLabel outputLabel;
@@ -40,7 +39,6 @@ public class GamingWindow {
 	 */
 	public GamingWindow(GamingController partita) {
 		this.partita = partita;
-//		this.tavolo = this.partita.getTavolo();
 		initialize();
 	}
 
@@ -99,91 +97,24 @@ public class GamingWindow {
 		frame.getContentPane().add(cartaDiBriscola);
 
 		int pos1 = 0;
-//		Carta cartaMia1 = partita.getTavolo().getCartaMie(pos1);
-//		JButton carta1Button = new JButton(cartaMia1.toString());
 		JButton carta1Button = new JButton();
 		buttonImplementation(carta1Button, pos1);
-//		carta1Button.addActionListener(new ActionListener() {
-//			public void actionPerformed(ActionEvent arg0) {
-//				giocata(cartaMia1, carta1Button, pos1);
-//			}
-//		});
 		carta1Button.setBounds(10, 190, 116, 35);
 		frame.getContentPane().add(carta1Button);
-//
+
 		int pos2 = 1;
-//		Carta cartaMia2 = partita.getTavolo().getCartaMie(pos2);		
-//		JButton carta2Button = new JButton(cartaMia2.toString());		
 		JButton carta2Button = new JButton();
 		buttonImplementation(carta2Button, pos2);
-//		carta2Button.addActionListener(new ActionListener() {
-//			public void actionPerformed(ActionEvent e) {
-//				giocata(cartaMia2, carta2Button, pos2);
-//			}
-//		});
+
 		carta2Button.setBounds(161, 190, 116, 35);
 		frame.getContentPane().add(carta2Button);
-//
+
 		int pos3 = 2;
-//		Carta cartaMia3 = partita.getTavolo().getCartaMie(pos3);
-//		JButton carta3Button = new JButton(cartaMia3.toString());
 		JButton carta3Button = new JButton();
 		buttonImplementation(carta3Button, pos3);
-//		carta3Button.addActionListener(new ActionListener() {
-//			public void actionPerformed(ActionEvent e) {
-//				giocata(cartaMia3, carta3Button, pos3);
-//			}
-//		});
 		carta3Button.setBounds(308, 190, 116, 35);
 		frame.getContentPane().add(carta3Button);
 
-//		
-//		
-//		JLabel prova1Label = new JLabel("prova1");
-//		prova1Label.setBounds(10, 49, 46, 14);
-//		frame.getContentPane().add(prova1Label);
-//
-//		JLabel prova2Label = new JLabel("prova2");
-//		prova2Label.setBounds(60, 49, 46, 14);
-//		frame.getContentPane().add(prova2Label);
-//
-//		JButton provaButton = new JButton("prova");
-//		provaButton.setBounds(10, 65, 89, 23);
-//		frame.getContentPane().add(provaButton);
-//		provaButton.addActionListener(new ActionListener() {
-//			public void actionPerformed(ActionEvent e) {
-//				prova1Label.setText("1");
-//				System.out.println("1");
-//
-//				Timer timer1 = new Timer(1000, firstListener(prova1Label, prova2Label));
-//				timer1.setRepeats(false);
-//				timer1.start();
-//			}
-//
-//		});
-//
-//	}
-//
-//	private ActionListener firstListener(JLabel prova1Label, JLabel prova2Label) {
-//		return new ActionListener() {
-//			public void actionPerformed(ActionEvent event) {
-//				prova2Label.setText("2");
-//				System.out.println("2");
-//
-//				Timer timer2 = new Timer(2000, secondListener(prova1Label));
-//				timer2.setRepeats(false);
-//				timer2.start();
-//			}
-//		};
-//	}
-//
-//	private ActionListener secondListener(JLabel prova1Label) {
-//		return new ActionListener() {
-//			public void actionPerformed(ActionEvent event) {
-//				prova1Label.setText("3");
-//				System.out.println("3");
-//			}
-//		};
 	}
 
 	private void buttonImplementation(JButton button, int pos) {
@@ -203,92 +134,9 @@ public class GamingWindow {
 	private void giocata(int pos) {
 		Carta cartaGiocata = partita.getTavolo().getCartaMie(pos);
 		/* dichiaro la carta che gioco */
-//		cartaMiaGiocataLabel.setText(cartaGiocata.toString());
-//		partita.giocaManoIO(cartaGiocata);
-		Timer timer1 = new Timer(0, giocoCarta(cartaGiocata));
-		timer1.setRepeats(false);
-		timer1.start();
+		timing(new Timer(0,giocoCarta(cartaGiocata)));
 		System.out.println("1");
 		
-//		Carta cartaGiocata = partita.getTavolo().getCartaMie(pos);
-//		/* dichiaro la carta che gioco */
-//		cartaMiaGiocataLabel.setText(cartaGiocata.toString());
-//		partita.giocaManoIO(cartaGiocata);
-////		Timer timer1 = new Timer(0, giocoCarta(cartaGiocata));
-////		timer1.setRepeats(false);
-////		timer1.start();
-//		System.out.println("1");
-//
-//		/* se tocca all'IA dichiara la carta che gioca */
-//		if (partita.isPresoIo()) {
-//			Carta cartaGiocataIA = partita.giocaManoIA();
-//			Timer timer1b = new Timer(2000, dichiaraCartaIA(cartaIAgiocataLabel ,cartaGiocataIA.toString()));
-//			timer1b.setRepeats(false);
-//			timer1b.start();
-//			System.out.println("1b");
-//		}
-//		
-//		/* controllo chi ha preso */
-//		String outputString = partita.checkAndContinue();
-//		Timer timer2 = new Timer(2000, checkAndContinue(outputString));
-//		timer2.setRepeats(false);
-//		timer2.start();
-//		System.out.println("2");
-//
-//		/* aggiorno le carte che ho in mano */
-//		Timer timer3 = new Timer(2000, aggiornoCarteMie());
-//		timer3.setRepeats(false);
-//		timer3.start();
-//		System.out.println("3");
-//
-//		/* se ha preso l'IA le faccio giocare la prossima mano */
-//		if (!partita.isPresoIo()) {
-//			partita.giocaManoIA();
-//			Carta cartaGiocataIA = partita.getTavolo().getCartaGiocataIA();
-//			Timer timer3b = new Timer(2000, aggiornoCartaGiocataIA(cartaIAgiocataLabel,
-//					cartaMiaGiocataLabel,
-//					cartaGiocataIA.toString()));
-//			timer3b.setRepeats(false);
-//			timer3b.start();
-//			System.out.println("3b");
-//		}
-//		/* altrimenti svuoto tutte le label */
-//		else {
-//			Timer timer3c = new Timer(2000, svuotaLabel(cartaIAgiocataLabel, cartaMiaGiocataLabel));
-//			timer3c.setRepeats(false);
-//			timer3c.start();
-//			System.out.println("3c");
-//		}
-		
-
-//		Carta cartaGiocata = this.partita.getTavolo().getCartaMie(pos);
-//		/* dichiaro la carta che gioco */
-//		this.cartaMiaGiocataLabel.setText(cartaGiocata.toString());
-//		this.partita.giocaManoIO(cartaGiocata);
-//
-//		/* se tocca all'IA dichiara la carta che gioca */
-//		if (this.partita.isPresoIo()) {
-//			this.cartaIAgiocataLabel.setText(this.partita.giocaManoIA().toString());
-//		}
-//		/* controllo chi ha preso */
-//		this.outputLabel.setText(this.partita.checkAndContinue());
-//
-//		/* aggiorno le carte che ho in mano */
-//		pos = 0;
-//		for (Component c : this.frame.getContentPane().getComponents()) {
-//			if (c.getClass() == JButton.class) {
-//				((JButton) c).setText(this.partita.getTavolo().getCartaMie(pos).toString());
-//				pos++;
-//			}
-//		}
-//
-//		/* se ha preso l'IA le faccio giocare la prossima mano */
-//		if (!this.partita.isPresoIo()) {
-//			this.partita.giocaManoIA();
-//			this.cartaIAgiocataLabel.setText(this.partita.getTavolo().getCartaGiocataIA().toString());
-//			this.cartaMiaGiocataLabel.setText("");
-//		}
-
 	}
 
 	private ActionListener giocoCarta(Carta cartaGiocata) {
@@ -297,20 +145,16 @@ public class GamingWindow {
 				cartaMiaGiocataLabel.setText(cartaGiocata.toString());
 				partita.giocaManoIO(cartaGiocata);
 				
-				/* se tocca all'IA dichiara la carta che gioca */
+				/* se tocca all'IA dichiara la carta che gioca e controllo chi ha preso */
 				if (partita.isPresoIo()) {
 					Carta cartaGiocataIA = partita.giocaManoIA();
-					Timer timer1b = new Timer(2000, dichiaraCartaIA(cartaIAgiocataLabel, cartaGiocataIA.toString()));
-					timer1b.setRepeats(false);
-					timer1b.start();
+					timing(new Timer(2000, dichiaraCartaIA(cartaIAgiocataLabel, cartaGiocataIA.toString())));
 					System.out.println("1b");
 				}
+				/* altrimenti controllo direttamente chi ha preso */
 				else {
-					/* controllo chi ha preso */
 					String outputString = partita.checkAndContinue();
-					Timer timer2 = new Timer(2000, checkAndContinue(outputString));
-					timer2.setRepeats(false);
-					timer2.start();
+					timing(new Timer(2000, checkAndContinue(outputString)));
 					System.out.println("2");
 				}
 			}
@@ -320,12 +164,11 @@ public class GamingWindow {
 	private ActionListener dichiaraCartaIA(JLabel cartaIAgiocataLabel, String cartaGiocataIA) {
 		return new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				cartaIAgiocataLabel.setText(cartaGiocataIA);
-				
+				cartaIAgiocataLabel.setText(cartaGiocataIA);				
 				String outputString = partita.checkAndContinue();
-				Timer timer2 = new Timer(2000, checkAndContinue(outputString));
-				timer2.setRepeats(false);
-				timer2.start();
+				
+				/* controllo chi ha preso */
+				timing(new Timer(2000, checkAndContinue(outputString)));
 				System.out.println("2");
 			}
 		};
@@ -338,9 +181,7 @@ public class GamingWindow {
 				outputLabel.setText(outputString);
 				
 				/* aggiorno le carte che ho in mano */
-				Timer timer3 = new Timer(1000, aggiornoCarteMie());
-				timer3.setRepeats(false);
-				timer3.start();
+				timing(new Timer(1000, aggiornoCarteMie()));
 				System.out.println("3");
 			}
 		};
@@ -365,18 +206,14 @@ public class GamingWindow {
 				if (!partita.isPresoIo()) {
 					partita.giocaManoIA();
 					Carta cartaGiocataIA = partita.getTavolo().getCartaGiocataIA();
-					Timer timer3b = new Timer(0, aggiornoCartaGiocataIA(cartaIAgiocataLabel,
+					timing(new Timer(0, aggiornoCartaGiocataIA(cartaIAgiocataLabel,
 							cartaMiaGiocataLabel,
-							cartaGiocataIA.toString()));
-					timer3b.setRepeats(false);
-					timer3b.start();
+							cartaGiocataIA.toString())));
 					System.out.println("3b");
 				}
 				/* altrimenti svuoto tutte le label */
 				else {
-					Timer timer3c = new Timer(0, svuotaLabel(cartaIAgiocataLabel, cartaMiaGiocataLabel));
-					timer3c.setRepeats(false);
-					timer3c.start();
+					timing(new Timer(0, svuotaLabel(cartaIAgiocataLabel, cartaMiaGiocataLabel)));
 					System.out.println("3c");
 				}
 			}
@@ -404,6 +241,11 @@ public class GamingWindow {
 				cartaMiaGiocataLabel.setText("");
 			}
 		};
+	}
+	
+	private void timing(Timer timer) {
+		timer.setRepeats(false);
+		timer.start();
 	}
 
 }
