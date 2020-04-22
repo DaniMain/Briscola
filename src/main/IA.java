@@ -119,7 +119,7 @@ public class IA {
 					}
 				}
 				else if(b==3){// altrimenti se ha 3 briscole tira sempre quella più bassa
-					briscoleInMano=(Carta[]) carteIA.toArray();
+//					briscoleInMano=(Carta[]) carteIA.toArray();
 					briscoleInMano=toArray(carteIA);
 					indBriscolaPiùBassa=0;
 					for(ii=1;ii<briscoleInMano.length;ii++)

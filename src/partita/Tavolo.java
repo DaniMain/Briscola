@@ -135,6 +135,10 @@ public class Tavolo {
 		return carteArray;
 	}
 
+	public Carta[] getCarteMieReal() {
+		return this.carteMie;
+	}
+
 	public Carta getCartaMie(int pos) {
 //		return this.carteMie.get(pos);
 
@@ -153,7 +157,7 @@ public class Tavolo {
 		for (int i = 0; i < this.carteMie.length; i++) {
 			if (carteMie[i] == null) {
 				carteMie[i] = c;
-				break;
+				return;
 			}
 		}
 	}
@@ -184,10 +188,10 @@ public class Tavolo {
 //			pos++;
 //		}
 //		this.carteMie.remove(pos);
-		
+
 		int nullable;
-		for (nullable = 0; nullable<this.carteMie.length; nullable++) {
-			if(carteMie[nullable]!=null) {
+		for (nullable = 0; nullable < this.carteMie.length; nullable++) {
+			if (carteMie[nullable] != null) {
 				break;
 			}
 		}
@@ -195,6 +199,16 @@ public class Tavolo {
 			if (carteMie[i].toString().equals(cartaDaRimuovere)) {
 				carteMie[i] = null;
 				break;
+			}
+		}
+	}
+
+	public void removeCartaMieReal(String cartaDaRimuovere) {
+		for (int i = 0; i < this.carteMie.length; i++) {
+			Carta c = this.carteMie[i];
+			if (c != null && c.toString().equals(cartaDaRimuovere)) {
+				carteMie[i] = null;
+				return;
 			}
 		}
 	}

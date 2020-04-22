@@ -146,7 +146,7 @@ public class MainController implements Partita {
 		this.ia = ia;
 	}
 
-	public void finePartita(){
+	public void setFinePartita(){
 		this.inCorso = false;
 	}
 	
@@ -302,7 +302,7 @@ public class MainController implements Partita {
 			Stampa.println("Ti aspetto per una partita vera!");
 			return;
 		}
-		finePartita();
+		setFinePartita();
 		Stampa.println("\nLe carte che hai collezionato sono:");
 		Stampa.println(tavolo.getPuntiMiei().toString());
 		int punteggio = tavolo.getPuntiMiei().contaPunti();

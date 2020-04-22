@@ -46,7 +46,7 @@ public class StartWindow {
 	private void initialize() {
 		frame = new JFrame();
 		frame.setTitle("Benvenuto!");
-		frame.setBounds(100, 100, 450, 177);
+		frame.setBounds(400, 200, 450, 177);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 		
@@ -72,9 +72,6 @@ public class StartWindow {
 				partita.creaPartita();
 				partita.setIniziaIA(!iniziaRadio.isSelected());
 				if(!partita.isPresoIo()) {
-//					new GamingWindow(partita).setGiocataIA();	
-//					partita.setGiocataIA(partita.getIa().giocaPrima(partita, partita.getBriscola().getSeme()));
-//					partita.giocaUnaMano();
 					partita.giocaManoIA();
 				}
 				frame.setVisible(false);

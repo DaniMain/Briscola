@@ -17,11 +17,10 @@ public interface Partita {
 	public boolean isInCorso();
 	public IA getIa();
 	public void setIa(IA ia);
-	public void finePartita();
+	public void setFinePartita();
 	public void creaPartita();
 	public void setGiocataMia(String s);
 	public void setGiocataIA(Carta cartaGiocataIA);
-//	public void giocaUnaMano() throws InterruptedException;
 	public void endGame() throws InterruptedException;
 	
 }

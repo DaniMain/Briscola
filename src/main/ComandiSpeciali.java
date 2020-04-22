@@ -43,7 +43,7 @@ public class ComandiSpeciali {
 	
 	public void finisci_partita(MainController partita){
 		partita.setGiocataMia(null);
-		partita.finePartita();
+		partita.setFinePartita();
 	}
 
 }
