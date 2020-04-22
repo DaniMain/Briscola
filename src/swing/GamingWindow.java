@@ -10,6 +10,7 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
+import javax.swing.Timer;
 
 import mazzo.Carta;
 import partita.GamingController;
@@ -135,105 +136,178 @@ public class GamingWindow {
 //		});
 		carta3Button.setBounds(308, 190, 116, 35);
 		frame.getContentPane().add(carta3Button);
-		
+
+//		JLabel prova1Label = new JLabel("prova1");
+//		prova1Label.setBounds(10, 49, 46, 14);
+//		frame.getContentPane().add(prova1Label);
+//
+//		JLabel prova2Label = new JLabel("prova2");
+//		prova2Label.setBounds(60, 49, 46, 14);
+//		frame.getContentPane().add(prova2Label);
+//
+//		JButton provaButton = new JButton("prova");
+//		provaButton.setBounds(10, 65, 89, 23);
+//		frame.getContentPane().add(provaButton);
+//		provaButton.addActionListener(new ActionListener() {
+//			public void actionPerformed(ActionEvent e) {
+//				prova1Label.setText("new 1");
+//				System.out.println("1");
+//
+//				Timer timer = new Timer(1000, firstListener(prova2Label));
+//				timer.setRepeats(false);
+//				timer.start();
+//			}
+//
+//		});
+//
 	}
-	
+//
+//	private ActionListener firstListener(JLabel prova2Label) {
+//		return new ActionListener() {
+//			public void actionPerformed(ActionEvent event) {
+//				prova2Label.setText("new 2");
+//				System.out.println("2");
+//			}
+//		};
+//	}
+
 	private void buttonImplementation(JButton button, int pos) {
-		try{
+		try {
 			Carta carta = partita.getTavolo().getCartaMie(pos);
 			button.setText(carta.toString());
-		}
-		catch(Exception e) {
+		} catch (Exception e) {
 			button.setVisible(false);
 		}
 		button.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				giocata(button, pos);
+				giocata(pos);
 			}
 		});
 	}
 
-	private void giocata(JButton button, int pos) {
+	private void giocata(int pos) {
 		Carta cartaGiocata = partita.getTavolo().getCartaMie(pos);
 		/* dichiaro la carta che gioco */
 		cartaMiaGiocataLabel.setText(cartaGiocata.toString());
-//		partita.getTavolo().setCartaGiocataIO(cartaGiocata);
 		partita.giocaManoIO(cartaGiocata);
+//		Timer timer1 = new Timer(0, giocoCarta(cartaGiocata));
+//		timer1.setRepeats(false);
+//		timer1.start();
+		System.out.println("1");
+
 		/* se tocca all'IA dichiara la carta che gioca */
-		if(partita.isPresoIo()) {
-			cartaIAgiocataLabel.setText(partita.giocaManoIA().toString());
+		if (partita.isPresoIo()) {
+			Timer timer1b = new Timer(2000, dichiaraCartaIA());
+			timer1b.setRepeats(false);
+			timer1b.start();
+			System.out.println("1b");
 		}
+		
 		/* controllo chi ha preso */
-		outputLabel.setText(partita.checkAndContinue());
+		Timer timer2 = new Timer(2000, checkAndContinue());
+		timer2.setRepeats(false);
+		timer2.start();
+		System.out.println("2");
+
 		/* aggiorno le carte che ho in mano */
-//		button.setText(partita.getTavolo().getCartaMie(pos).toString());
-		pos = 0;
-		for (Component c: frame.getContentPane().getComponents()){
-			if (c.getClass()==JButton.class) {
-				((JButton) c).setText(partita.getTavolo().getCartaMie(pos).toString());
-				pos++;
-			}
-		}
+		Timer timer3 = new Timer(2000, aggiornoCarteMie());
+		timer3.setRepeats(false);
+		timer3.start();
+		System.out.println("3");
+
 		/* se ha preso l'IA le faccio giocare la prossima mano */
-		if(!partita.isPresoIo()) {
-			partita.giocaManoIA();
-			cartaIAgiocataLabel.setText(partita.getTavolo().getCartaGiocataIA().toString());
+		if (!partita.isPresoIo()) {
+			Timer timer3b = new Timer(2000, aggiornoCartaGiocataIA());
+			timer3b.setRepeats(false);
+			timer3b.start();
+			System.out.println("3b");
 		}
+		
+
+//		Carta cartaGiocata = this.partita.getTavolo().getCartaMie(pos);
+//		/* dichiaro la carta che gioco */
+//		this.cartaMiaGiocataLabel.setText(cartaGiocata.toString());
+//		this.partita.giocaManoIO(cartaGiocata);
+//
+//		/* se tocca all'IA dichiara la carta che gioca */
+//		if (this.partita.isPresoIo()) {
+//			this.cartaIAgiocataLabel.setText(this.partita.giocaManoIA().toString());
+//		}
+//		/* controllo chi ha preso */
+//		this.outputLabel.setText(this.partita.checkAndContinue());
+//
+//		/* aggiorno le carte che ho in mano */
+//		pos = 0;
+//		for (Component c : this.frame.getContentPane().getComponents()) {
+//			if (c.getClass() == JButton.class) {
+//				((JButton) c).setText(this.partita.getTavolo().getCartaMie(pos).toString());
+//				pos++;
+//			}
+//		}
+//
+//		/* se ha preso l'IA le faccio giocare la prossima mano */
+//		if (!this.partita.isPresoIo()) {
+//			this.partita.giocaManoIA();
+//			this.cartaIAgiocataLabel.setText(this.partita.getTavolo().getCartaGiocataIA().toString());
+//			this.cartaMiaGiocataLabel.setText("");
+//		}
+
 	}
-	
-//	public void setGiocataIA() {
-//		Carta cartaGiocataIA = null;
-//		if (partita.isPresoIo()){
-//			if(tavolo.getCartaGiocataIO()==null)
-//				return;
-//			cartaGiocataIA = partita.getIa().giocaDopo(partita, partita.getBriscola().getSeme());
-//		}
-//		else
-//			cartaGiocataIA = partita.getIa().giocaPrima(partita, partita.getBriscola().getSeme());
-//		partita.setGiocataIA(cartaGiocataIA);
-//		cartaIAgiocataLabel.setText(cartaGiocataIA.toString());
+
+//	private ActionListener giocoCarta(Carta cartaGiocata) {
+//		return new ActionListener() {
+//			public void actionPerformed(ActionEvent e) {
+//				cartaMiaGiocataLabel.setText(cartaGiocata.toString());
+//				partita.giocaManoIO(cartaGiocata);
+//			}
+//		};
 //	}
-//	
-//	private void checkAndContinue() {
-//		boolean manoMia;
-//		if (partita.isPresoIo()){
-//			if(tavolo.getCartaGiocataIO().isBetter(
-//					tavolo.getCartaGiocataIA(),partita.getBriscola().getSeme())){
-//				manoMia=true;
-//			}
-//			else{
-//				manoMia=false;
-//			}
-//		}else{
-//			if(tavolo.getCartaGiocataIA().isBetter(
-//					tavolo.getCartaGiocataIO(),partita.getBriscola().getSeme())){
-//				manoMia=false;
-//			}
-//			else{
-//				manoMia=true;
-//			}
-//		}
-//		if(manoMia){
-//			outputLabel.setText("Hai preso tu!");
-//			tavolo.aggiungiPuntiMiei(tavolo.getCartaGiocataIO());
-//			tavolo.aggiungiPuntiMiei(tavolo.getCartaGiocataIA());
-//			if (!tavolo.getMazzo().isEmpty()){
-//				tavolo.aggiungiCarteMie(tavolo.getMazzo().pop());
-//				tavolo.aggiungiCarteIA(tavolo.getMazzo().pop());
-//			}
-//			partita.setPresoIo(true);
-//		}else{
-//			outputLabel.setText("Ho preso io!");
-//			tavolo.aggiungiPuntiIA(tavolo.getCartaGiocataIO());
-//			tavolo.aggiungiPuntiIA(tavolo.getCartaGiocataIA());
-//			if (!tavolo.getMazzo().isEmpty()){
-//				tavolo.aggiungiCarteIA(tavolo.getMazzo().pop());
-//				tavolo.aggiungiCarteMie(tavolo.getMazzo().pop());
-//			}
-//			partita.setPresoIo(false);
-//		}
-//		tavolo.setCartaGiocataIO(null);
-//		tavolo.setCartaGiocataIA(null);		
-//	}
-	
+
+	private ActionListener dichiaraCartaIA() {
+		return new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				cartaIAgiocataLabel.setText(partita.giocaManoIA().toString());
+			}
+		};
+
+	}
+
+	private ActionListener checkAndContinue() {
+		return new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				outputLabel.setText(partita.checkAndContinue());
+			}
+		};
+
+	}
+
+	private ActionListener aggiornoCarteMie() {
+		return new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				int pos = 0;
+				for (Component c : frame.getContentPane().getComponents()) {
+					if (c.getClass() == JButton.class) {
+						((JButton) c).setText(partita.getTavolo().getCartaMie(pos).toString());
+						pos++;
+						if (pos==3) {
+							break;
+						}
+					}
+				}
+			}
+		};
+
+	}
+
+	private ActionListener aggiornoCartaGiocataIA() {
+		return new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				partita.giocaManoIA();
+				cartaIAgiocataLabel.setText(partita.getTavolo().getCartaGiocataIA().toString());
+				cartaMiaGiocataLabel.setText("");
+			}
+		};
+	}
+
 }

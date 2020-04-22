@@ -49,7 +49,7 @@ public class Main {
 		/* esegui tante mani di gioco fino a che non finisce la partita*/ 
 		while(mainController.isInCorso() && tavolo.getCarteMie().size()>0){ //!tavolo.getMazzo().isEmpty()){
 			if (tavolo.getMazzo().getMazzo().size()==2)
-				Stampa.println("======= ULTIME DUE CARTE DEL MAZZO! La carta di briscola è " +
+				Stampa.println("======= ULTIME DUE CARTE DEL MAZZO! La carta di briscola è: " +
 						tavolo.getMazzo().getCarta(1).toString().toUpperCase() + " =======\n");
 			mainController.giocaUnaMano();
 		}

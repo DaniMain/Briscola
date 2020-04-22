@@ -85,7 +85,7 @@ public class GamingController implements Partita{
 //	}
 
 	public Carta getBriscola() {
-		return briscola;
+		return this.briscola;
 	}
 
 	public void setBriscola(Carta briscola) {
@@ -101,7 +101,7 @@ public class GamingController implements Partita{
 //	}
 
 	public boolean isFineMazzo() {
-		return fineMazzo;
+		return this.fineMazzo;
 	}
 
 	public void setFineMazzo(boolean fineMazzo) {
@@ -109,7 +109,7 @@ public class GamingController implements Partita{
 	}
 	
 	public boolean isPresoIo() {
-		return presoIo;
+		return this.presoIo;
 	}
 
 	public void setPresoIo(boolean presoIo) {
@@ -138,7 +138,7 @@ public class GamingController implements Partita{
 	}
 
 	public IA getIa() {
-		return ia;
+		return this.ia;
 	}
 
 	public void setIa(IA ia) {
@@ -274,7 +274,7 @@ public class GamingController implements Partita{
 			}
 		}
 		if(manoMia){
-			outputForOutputLabel = "HAI PRESO TU!";
+			outputForOutputLabel = "HAI PRESO TU";
 			this.tavolo.aggiungiPuntiMiei(this.tavolo.getCartaGiocataIO());
 			this.tavolo.aggiungiPuntiMiei(this.tavolo.getCartaGiocataIA());
 			if (!this.tavolo.getMazzo().isEmpty()){
@@ -283,7 +283,7 @@ public class GamingController implements Partita{
 			}
 			this.setPresoIo(true);
 		}else{
-			outputForOutputLabel = "HO PRESO IO!";
+			outputForOutputLabel = "HO PRESO IO";
 			this.tavolo.aggiungiPuntiIA(this.tavolo.getCartaGiocataIO());
 			this.tavolo.aggiungiPuntiIA(this.tavolo.getCartaGiocataIA());
 			if (!this.tavolo.getMazzo().isEmpty()){
