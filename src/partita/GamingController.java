@@ -258,7 +258,7 @@ public class GamingController implements Partita{
 		if(tavolo.getCartaGiocataIO()==null)
 			return outputForOutputLabel;
 		boolean manoMia;
-		if (this.presoIo){
+		if (this.isPresoIo()){
 			if(this.tavolo.getCartaGiocataIO().isBetter(this.tavolo.getCartaGiocataIA(),this.briscola.getSeme())){
 				manoMia=true;
 			}
