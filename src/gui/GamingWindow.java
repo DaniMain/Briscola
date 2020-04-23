@@ -81,10 +81,7 @@ public class GamingWindow {
 		cartaDiBriscolaLabel.setBounds(37, 118, 124, 14);
 		frame.getContentPane().add(cartaDiBriscolaLabel);
 
-		cartaDiBriscola = new JLabel(
-				new ImageIcon(
-						Toolkit.getDefaultToolkit().getImage(getClass().getResource(
-								partita.getBriscola().toStringPath()))));
+		cartaDiBriscola = new JLabel(getImageIconFrom(partita.getBriscola().toStringPath()));
 		cartaDiBriscola.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		cartaDiBriscola.setBounds(63, 143, 73, 133);
 		frame.getContentPane().add(cartaDiBriscola);
@@ -98,10 +95,7 @@ public class GamingWindow {
 		cartaIAgiocataLabel = new JLabel();
 		Carta cartaGiocataIA = partita.getTavolo().getCartaGiocataIA();		
 		if (cartaGiocataIA != null) {
-			cartaIAgiocataLabel.setIcon(
-					new ImageIcon(
-							Toolkit.getDefaultToolkit().getImage(getClass().getResource(
-									cartaGiocataIA.toStringPath()))));
+			cartaIAgiocataLabel.setIcon(getImageIconFrom(cartaGiocataIA.toStringPath()));
 		}
 		cartaIAgiocataLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		cartaIAgiocataLabel.setBounds(251, 102, 73, 133);
@@ -116,10 +110,7 @@ public class GamingWindow {
 		cartaMiaGiocataLabel = new JLabel();
 		Carta cartaGiocataIO = partita.getTavolo().getCartaGiocataIO();
 		if (cartaGiocataIO != null) {
-			cartaMiaGiocataLabel.setIcon(
-					new ImageIcon(
-							Toolkit.getDefaultToolkit().getImage(getClass().getResource(
-									cartaGiocataIO.toStringPath()))));
+			cartaMiaGiocataLabel.setIcon(getImageIconFrom(cartaGiocataIO.toStringPath()));
 		}
 		cartaMiaGiocataLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		cartaMiaGiocataLabel.setBounds(367, 102, 73, 133);
@@ -160,9 +151,7 @@ public class GamingWindow {
 	private void buttonImplementation(JButton button, int pos) {
 		button.setBackground(Color.WHITE);
 		Carta carta = partita.getTavolo().getCarteMieReal()[pos];
-		button.setIcon(new ImageIcon(
-				Toolkit.getDefaultToolkit().getImage(getClass().getResource(
-						carta.toStringPath()))));
+		button.setIcon(getImageIconFrom(carta.toStringPath()));
 		buttons[pos] = button;
 		button.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -184,10 +173,7 @@ public class GamingWindow {
 	private ActionListener giocoCarta(Carta cartaGiocata) {
 		return new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				cartaMiaGiocataLabel.setIcon(
-						new ImageIcon(
-								Toolkit.getDefaultToolkit().getImage(getClass().getResource(
-										cartaGiocata.toStringPath()))));
+				cartaMiaGiocataLabel.setIcon(getImageIconFrom(cartaGiocata.toStringPath()));
 				partita.giocaManoIO(cartaGiocata);
 
 				/* se tocca all'IA dichiara la carta che gioca e controllo chi ha preso */
@@ -207,10 +193,7 @@ public class GamingWindow {
 	private ActionListener dichiaraCartaIA(JLabel cartaIAgiocataLabel, Carta cartaGiocataIA) {
 		return new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				cartaIAgiocataLabel.setIcon(
-						new ImageIcon(
-								Toolkit.getDefaultToolkit().getImage(getClass().getResource(
-										cartaGiocataIA.toStringPath()))));
+				cartaIAgiocataLabel.setIcon(getImageIconFrom(cartaGiocataIA.toStringPath()));
 				String outputString = partita.checkAndContinue();
 
 				/* controllo chi ha preso */
@@ -266,10 +249,7 @@ public class GamingWindow {
 		return new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				cartaIAgiocataLabel.setIcon(
-						new ImageIcon(
-								Toolkit.getDefaultToolkit().getImage(getClass().getResource(
-										cartaGiocataIA.toStringPath()))));
+				cartaIAgiocataLabel.setIcon(getImageIconFrom(cartaGiocataIA.toStringPath()));
 			}
 		};
 	}
@@ -337,14 +317,16 @@ public class GamingWindow {
 	private void updateButton(JButton button, int pos) {
 		Carta[] carteMieReal = partita.getTavolo().getCarteMieReal();
 		if (carteMieReal[pos] != null) {
-			button.setIcon(
-					new ImageIcon(
-							Toolkit.getDefaultToolkit().getImage(getClass().getResource(
-									carteMieReal[pos].toStringPath()))));
+			button.setIcon(getImageIconFrom(carteMieReal[pos].toStringPath()));
 			button.setEnabled(true);
 		} else {
 			button.setVisible(false);
 		}
+	}
+	
+	private ImageIcon getImageIconFrom(String stringPath) {
+		return new ImageIcon(
+				Toolkit.getDefaultToolkit().getImage(getClass().getResource(stringPath)));
 	}
 
 	private void launchEndGame() {
