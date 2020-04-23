@@ -27,6 +27,7 @@ public class GamingWindow {
 	private JLabel outputLabel;
 	private int tempoRisposta;
 	private JButton[] buttons;
+	private boolean siPuoCliccare;
 	private JLabel cartaDiBriscolaLabel;
 	private JLabel cartaDiBriscola;
 	private JTextArea ultimeDueCarteLabel;
@@ -49,6 +50,7 @@ public class GamingWindow {
 		this.partita = partita;
 		this.tempoRisposta = 1000;
 		this.buttons = new JButton[3];
+		this.siPuoCliccare = true;
 		initialize();
 	}
 
@@ -155,8 +157,10 @@ public class GamingWindow {
 		buttons[pos] = button;
 		button.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				button.setEnabled(false);
-				if (partita.isInCorso()) {
+				if (siPuoCliccare && partita.isInCorso()) {
+					siPuoCliccare = false;
+					System.out.println("gioco una mano");
+					button.setVisible(false);
 					giocata(pos);
 				}
 			}
@@ -318,10 +322,11 @@ public class GamingWindow {
 		Carta[] carteMieReal = partita.getTavolo().getCarteMieReal();
 		if (carteMieReal[pos] != null) {
 			button.setIcon(getImageIconFrom(carteMieReal[pos].toStringPath()));
-			button.setEnabled(true);
+			button.setVisible(true);
 		} else {
 			button.setVisible(false);
 		}
+		this.siPuoCliccare = true;
 	}
 	
 	private ImageIcon getImageIconFrom(String stringPath) {
