@@ -1,10 +1,12 @@
 package gui;
 
+import java.awt.Color;
 import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -51,67 +53,70 @@ public class GamingWindow {
 	private void initialize() {
 		frame = new JFrame();
 		frame.setTitle("Briscola 2.0");
-		frame.setBounds(400, 200, 450, 300);
+		frame.setBounds(400, 200, 620, 485);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 
 		JLabel labelforIA = new JLabel("carta giocata IA:");
-		labelforIA.setHorizontalAlignment(SwingConstants.TRAILING);
-		labelforIA.setBounds(75, 124, 94, 14);
+		labelforIA.setFont(new Font("Roboto", Font.PLAIN, 12));
+		labelforIA.setHorizontalAlignment(SwingConstants.CENTER);
+		labelforIA.setBounds(208, 75, 94, 14);
 		frame.getContentPane().add(labelforIA);
 
 		cartaIAgiocataLabel = new JLabel("");
 		Carta cartaGiocataIA = partita.getTavolo().getCartaGiocataIA();
 		if (cartaGiocataIA != null) {
-			cartaIAgiocataLabel.setText(cartaGiocataIA.toString());
+			cartaIAgiocataLabel.setIcon(new ImageIcon(cartaGiocataIA.toStringPath()));
 		}
 		cartaIAgiocataLabel.setHorizontalAlignment(SwingConstants.CENTER);
-		cartaIAgiocataLabel.setBounds(163, 120, 116, 23);
+		cartaIAgiocataLabel.setBounds(218, 102, 86, 125);
 		frame.getContentPane().add(cartaIAgiocataLabel);
 
 		JLabel labelforme = new JLabel("carta giocata:");
-		labelforme.setHorizontalAlignment(SwingConstants.TRAILING);
-		labelforme.setBounds(75, 147, 94, 14);
+		labelforme.setFont(new Font("Roboto", Font.PLAIN, 12));
+		labelforme.setHorizontalAlignment(SwingConstants.CENTER);
+		labelforme.setBounds(388, 75, 94, 14);
 		frame.getContentPane().add(labelforme);
 
 		cartaMiaGiocataLabel = new JLabel("");
 		Carta cartaGiocataIO = partita.getTavolo().getCartaGiocataIO();
 		if (cartaGiocataIO != null) {
-			cartaMiaGiocataLabel.setText(cartaGiocataIO.toString());
+			cartaMiaGiocataLabel.setIcon(new ImageIcon(cartaGiocataIO.toStringPath()));
 		}
 		cartaMiaGiocataLabel.setHorizontalAlignment(SwingConstants.CENTER);
-		cartaMiaGiocataLabel.setBounds(163, 143, 116, 23);
+		cartaMiaGiocataLabel.setBounds(392, 99, 80, 128);
 		frame.getContentPane().add(cartaMiaGiocataLabel);
 
 		outputLabel = new JLabel("");
 		outputLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		outputLabel.setFont(new Font("Roboto", Font.PLAIN, 24));
-		outputLabel.setBounds(10, 49, 414, 44);
+		outputLabel.setBounds(100, 11, 488, 53);
 		frame.getContentPane().add(outputLabel);
 
-		JLabel cartaDiBriscolaLabel = new JLabel("la carta di briscola \u00E8:");
-		cartaDiBriscolaLabel.setHorizontalAlignment(SwingConstants.TRAILING);
-		cartaDiBriscolaLabel.setBounds(60, 15, 125, 14);
+		JLabel cartaDiBriscolaLabel = new JLabel("LE TUE CARTE");
+		cartaDiBriscolaLabel.setFont(new Font("Roboto", Font.PLAIN, 12));
+		cartaDiBriscolaLabel.setHorizontalAlignment(SwingConstants.CENTER);
+		cartaDiBriscolaLabel.setBounds(289, 398, 124, 14);
 		frame.getContentPane().add(cartaDiBriscolaLabel);
 
-		JLabel cartaDiBriscola = new JLabel(partita.getBriscola().toString());
+		JLabel cartaDiBriscola = new JLabel(new ImageIcon(partita.getBriscola().toStringPath()));
 		cartaDiBriscola.setFont(new Font("Tahoma", Font.PLAIN, 16));
-		cartaDiBriscola.setBounds(194, 2, 125, 36);
+		cartaDiBriscola.setBounds(40, 143, 94, 125);
 		frame.getContentPane().add(cartaDiBriscola);
 
 		JButton carta1Button = new JButton();
 		buttonImplementation(carta1Button, 0);
-		carta1Button.setBounds(10, 190, 116, 35);
+		carta1Button.setBounds(222, 271, 80, 125);
 		frame.getContentPane().add(carta1Button);
 
 		JButton carta2Button = new JButton();
 		buttonImplementation(carta2Button, 1);
-		carta2Button.setBounds(161, 190, 116, 35);
+		carta2Button.setBounds(313, 271, 80, 126);
 		frame.getContentPane().add(carta2Button);
 
 		JButton carta3Button = new JButton();
 		buttonImplementation(carta3Button, 2);
-		carta3Button.setBounds(308, 190, 116, 35);
+		carta3Button.setBounds(403, 270, 80, 126);
 		frame.getContentPane().add(carta3Button);
 
 		JButton terminaButton = new JButton("termina");
@@ -120,18 +125,21 @@ public class GamingWindow {
 				launchEndGame();
 			}
 		});
-		terminaButton.setBounds(335, 236, 89, 23);
+		terminaButton.setBounds(507, 412, 89, 23);
 		frame.getContentPane().add(terminaButton);
+		
+		JLabel cartaDiBriscolaLabel_1 = new JLabel("la carta di briscola \u00E8:");
+		cartaDiBriscolaLabel_1.setHorizontalAlignment(SwingConstants.CENTER);
+		cartaDiBriscolaLabel_1.setFont(new Font("Roboto", Font.PLAIN, 12));
+		cartaDiBriscolaLabel_1.setBounds(23, 118, 124, 14);
+		frame.getContentPane().add(cartaDiBriscolaLabel_1);
 
 	}
 
 	private void buttonImplementation(JButton button, int pos) {
-//		try {
+		button.setBackground(Color.WHITE);
 		Carta carta = partita.getTavolo().getCarteMieReal()[pos];
-		button.setText(carta.toString());
-//		} catch (Exception e) {
-//			button.setVisible(false);
-//		}
+		button.setIcon(new ImageIcon(carta.toStringPath()));
 		buttons[pos] = button;
 		button.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -145,46 +153,39 @@ public class GamingWindow {
 
 	private void giocata(int pos) {
 		Carta cartaGiocata = partita.getTavolo().getCarteMieReal()[pos];
-//		if (partita.getTavolo().getMazzo().getMazzo().size() == 2) {
-//			outputLabel.setText("ULTIME DUE CARTE DEL MAZZO");
-//		}
+
 		/* dichiaro la carta che gioco */
 		timing(new Timer(0, giocoCarta(cartaGiocata)));
-		System.out.println("1");
-
 	}
 
 	private ActionListener giocoCarta(Carta cartaGiocata) {
 		return new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				cartaMiaGiocataLabel.setText(cartaGiocata.toString());
+				cartaMiaGiocataLabel.setIcon(new ImageIcon(cartaGiocata.toStringPath()));
 				partita.giocaManoIO(cartaGiocata);
 
 				/* se tocca all'IA dichiara la carta che gioca e controllo chi ha preso */
 				if (partita.isPresoIo()) {
 					Carta cartaGiocataIA = partita.giocaManoIA();
-					timing(new Timer(tempoRisposta, dichiaraCartaIA(cartaIAgiocataLabel, cartaGiocataIA.toString())));
-					System.out.println("1b");
+					timing(new Timer(tempoRisposta, dichiaraCartaIA(cartaIAgiocataLabel, cartaGiocataIA)));
 				}
 				/* altrimenti controllo direttamente chi ha preso */
 				else {
 					String outputString = partita.checkAndContinue();
 					timing(new Timer(tempoRisposta, checkAndContinue(outputString)));
-					System.out.println("2");
 				}
 			}
 		};
 	}
 
-	private ActionListener dichiaraCartaIA(JLabel cartaIAgiocataLabel, String cartaGiocataIA) {
+	private ActionListener dichiaraCartaIA(JLabel cartaIAgiocataLabel, Carta cartaGiocataIA) {
 		return new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				cartaIAgiocataLabel.setText(cartaGiocataIA);
+				cartaIAgiocataLabel.setIcon(new ImageIcon(cartaGiocataIA.toStringPath()));
 				String outputString = partita.checkAndContinue();
 
 				/* controllo chi ha preso */
 				timing(new Timer(tempoRisposta, checkAndContinue(outputString)));
-				System.out.println("2");
 			}
 		};
 
@@ -197,7 +198,6 @@ public class GamingWindow {
 
 				/* aggiorno le carte che ho in mano */
 				timing(new Timer(tempoRisposta, aggiornoCarteMie()));
-				System.out.println("3");
 			}
 		};
 
@@ -206,23 +206,6 @@ public class GamingWindow {
 	private ActionListener aggiornoCarteMie() {
 		return new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-//				int pos = 0;
-//				for (Component c : frame.getContentPane().getComponents()) {
-//					if (c.getClass() == JButton.class) {
-//						if (pos < partita.getTavolo().getCarteMie().size()
-//								&& partita.getTavolo().getCartaMie(pos)!=null) {
-//							((JButton) c).setText(partita.getTavolo().getCartaMie(pos).toString());
-//							((JButton) c).setEnabled(true);
-//						}
-//						else {
-//							((JButton) c).setVisible(false);
-//						}
-//						pos++;
-//					}
-//					if (pos==3) {
-//						break;
-//					}
-//				}
 
 				for (int i = 0; i < buttons.length; i++) {
 					updateButton(buttons[i], i);
@@ -232,13 +215,11 @@ public class GamingWindow {
 				if (!partita.isPresoIo() && partita.isInCorso()) {
 					partita.giocaManoIA();
 					Carta cartaGiocataIA = partita.getTavolo().getCartaGiocataIA();
-					timing(new Timer(0, aggiornoCartaGiocataIA(cartaGiocataIA.toString())));
-					System.out.println("3b");
+					timing(new Timer(0, aggiornoCartaGiocataIA(cartaGiocataIA)));
 				}
 				/* altrimenti svuoto tutte le label */
 				else {
 					timing(new Timer(0, svuotaLabel()));
-					System.out.println("3c");
 				}
 				
 
@@ -256,13 +237,13 @@ public class GamingWindow {
 
 	}
 
-	private ActionListener aggiornoCartaGiocataIA(String cartaGiocataIA) {
+	private ActionListener aggiornoCartaGiocataIA(Carta cartaGiocataIA) {
 		return new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				cartaIAgiocataLabel.setText(cartaGiocataIA.toString());
-				cartaMiaGiocataLabel.setText("");
-				outputLabel.setText("");
+				cartaIAgiocataLabel.setIcon(new ImageIcon(cartaGiocataIA.toStringPath()));
+				cartaMiaGiocataLabel.setIcon(new ImageIcon());
+				outputLabel.setIcon(new ImageIcon());
 			}
 		};
 	}
@@ -271,9 +252,9 @@ public class GamingWindow {
 		return new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				cartaIAgiocataLabel.setText("");
-				cartaMiaGiocataLabel.setText("");
-				outputLabel.setText("");
+				cartaIAgiocataLabel.setIcon(new ImageIcon());
+				cartaMiaGiocataLabel.setIcon(new ImageIcon());
+				outputLabel.setIcon(new ImageIcon());
 			}
 		};
 	}
@@ -301,11 +282,10 @@ public class GamingWindow {
 	private void updateButton(JButton button, int pos) {
 		Carta[] carteMieReal = partita.getTavolo().getCarteMieReal();
 		if (carteMieReal[pos] != null) {
-			button.setText(carteMieReal[pos].toString());
+			button.setIcon(new ImageIcon(carteMieReal[pos].toStringPath()));
 			button.setEnabled(true);
 		} else {
 			button.setVisible(false);
 		}
 	}
-
 }

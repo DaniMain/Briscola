@@ -57,6 +57,10 @@ public class Carta{
 	public String toString(){
 		return this.getValore()+" di "+this.getSeme();
 	}
+	
+	public String toStringPath() {
+		return "carte/" + this.toString() + ".png";
+	}
 
 	public boolean isBetter(Carta carta, String briscola) {
 		if (!this.getSeme().equals(carta.getSeme()) & !carta.getSeme().equals(briscola))
