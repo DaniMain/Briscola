@@ -74,7 +74,6 @@ public class StartWindow {
 				if(!partita.isPresoIo()) {
 					partita.giocaManoIA();
 				}
-				frame.setVisible(false);
 				launchGame(partita);
 			}
 		});
@@ -83,6 +82,7 @@ public class StartWindow {
 	}
 	
 	private void launchGame(GamingController partita) {
+		frame.dispose();
 		new GamingWindow(partita).main();
 	}
 }

@@ -331,7 +331,7 @@ public class GamingWindow {
 
 	private void launchEndGame() {
 		partita.endGame();
-		this.frame.setVisible(false);
+		frame.dispose();
 		new EndWindow(this.partita).main();
 	}
 }

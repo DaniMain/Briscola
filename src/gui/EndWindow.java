@@ -10,6 +10,9 @@ import javax.swing.SwingConstants;
 import partita.GamingController;
 import javax.swing.JScrollPane;
 import java.awt.Font;
+import javax.swing.JButton;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class EndWindow {
 
@@ -42,7 +45,7 @@ public class EndWindow {
 	private void initialize() {
 		frame = new JFrame();
 		frame.setTitle("Fine della partita");
-		frame.setBounds(400, 200, 450, 300);
+		frame.setBounds(400, 200, 450, 338);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 
@@ -71,6 +74,34 @@ public class EndWindow {
 				JLabel carteCollezionateLabel = new JLabel("Hai collezionato le seguenti carte:");
 				carteCollezionateLabel.setFont(new Font("Roboto", Font.PLAIN, 11));
 				scrollPane.setColumnHeaderView(carteCollezionateLabel);
+				
+				JLabel nuovaPartitaLabel = new JLabel("Vuoi giocare un'altra partita?");
+				nuovaPartitaLabel.setHorizontalAlignment(SwingConstants.TRAILING);
+				nuovaPartitaLabel.setFont(new Font("Roboto", Font.PLAIN, 12));
+				nuovaPartitaLabel.setBounds(99, 269, 203, 15);
+				frame.getContentPane().add(nuovaPartitaLabel);
+				
+				JButton siButton = new JButton("SI");
+				siButton.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						frame.dispose();
+						new StartWindow();
+						StartWindow.main(null);
+					}
+				});
+				siButton.setFont(new Font("Roboto", Font.PLAIN, 12));
+				siButton.setBounds(372, 265, 52, 23);
+				frame.getContentPane().add(siButton);
+				
+				JButton noButton = new JButton("NO");
+				noButton.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent arg0) {
+						System.exit(0);
+					}
+				});
+				noButton.setFont(new Font("Roboto", Font.PLAIN, 12));
+				noButton.setBounds(312, 265, 52, 23);
+				frame.getContentPane().add(noButton);
 	}
 
 	private void implementTextArea(JTextArea textArea) {
