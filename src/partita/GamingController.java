@@ -223,8 +223,8 @@ public class GamingController implements Partita {
 		} else if (punteggio < 59) {
 			this.setRisultatoPartita("TI HO BATTUTO!");
 			this.setDescrizioneFinale("Hai collezionato " + punteggio + " punti\n"
-					+ "\nE' stata  una bella partita ma alla fine ha vinto\n"
-					+ " il più forte, cioè io!\n"
+					+ "\nE' stata  una bella partita ma alla fine ha vinto il più forte...\n"
+					+ "...cioè io!\n"
 					+ "Ritenta, magari la prossima volta sarai più fortunato!");
 		} else if (punteggio == 59) {
 			this.setRisultatoPartita("HAI PERSO! HAI FATTO 59!!!");

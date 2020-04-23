@@ -10,6 +10,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JTextArea;
 import javax.swing.SwingConstants;
 import javax.swing.Timer;
 
@@ -25,6 +26,9 @@ public class GamingWindow {
 	private JLabel outputLabel;
 	private int tempoRisposta;
 	private JButton[] buttons;
+	private JLabel cartaDiBriscolaLabel;
+	private JLabel cartaDiBriscola;
+	private JTextArea ultimeDueCarteLabel;
 
 	/**
 	 * Launch the application.
@@ -52,15 +56,39 @@ public class GamingWindow {
 	 */
 	private void initialize() {
 		frame = new JFrame();
-		frame.setTitle("Briscola 2.0");
-		frame.setBounds(400, 200, 620, 485);
+		frame.setTitle("Briscola 2.1");
+		frame.setBounds(300, 150, 620, 485);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
+
+		outputLabel = new JLabel("");
+		outputLabel.setHorizontalAlignment(SwingConstants.CENTER);
+		outputLabel.setFont(new Font("Roboto", Font.BOLD, 24));
+		outputLabel.setBounds(100, 11, 488, 53);
+		frame.getContentPane().add(outputLabel);
+		
+		ultimeDueCarteLabel = new JTextArea();
+		ultimeDueCarteLabel.setEditable(false);
+		ultimeDueCarteLabel.setFont(new Font("Roboto", Font.BOLD | Font.ITALIC, 12));
+		ultimeDueCarteLabel.setBounds(37, 283, 124, 45);
+		frame.getContentPane().add(ultimeDueCarteLabel);
+		ultimeDueCarteLabel.setVisible(false);
+		
+		cartaDiBriscolaLabel = new JLabel("la carta di briscola \u00E8:");
+		cartaDiBriscolaLabel.setHorizontalAlignment(SwingConstants.CENTER);
+		cartaDiBriscolaLabel.setFont(new Font("Roboto", Font.PLAIN, 12));
+		cartaDiBriscolaLabel.setBounds(37, 118, 124, 14);
+		frame.getContentPane().add(cartaDiBriscolaLabel);
+
+		cartaDiBriscola = new JLabel(new ImageIcon(partita.getBriscola().toStringPath()));
+		cartaDiBriscola.setFont(new Font("Tahoma", Font.PLAIN, 16));
+		cartaDiBriscola.setBounds(63, 143, 73, 133);
+		frame.getContentPane().add(cartaDiBriscola);
 
 		JLabel labelforIA = new JLabel("carta giocata IA:");
 		labelforIA.setFont(new Font("Roboto", Font.PLAIN, 12));
 		labelforIA.setHorizontalAlignment(SwingConstants.CENTER);
-		labelforIA.setBounds(208, 75, 94, 14);
+		labelforIA.setBounds(241, 75, 94, 14);
 		frame.getContentPane().add(labelforIA);
 
 		cartaIAgiocataLabel = new JLabel("");
@@ -69,13 +97,13 @@ public class GamingWindow {
 			cartaIAgiocataLabel.setIcon(new ImageIcon(cartaGiocataIA.toStringPath()));
 		}
 		cartaIAgiocataLabel.setHorizontalAlignment(SwingConstants.CENTER);
-		cartaIAgiocataLabel.setBounds(218, 102, 86, 125);
+		cartaIAgiocataLabel.setBounds(251, 102, 73, 133);
 		frame.getContentPane().add(cartaIAgiocataLabel);
 
 		JLabel labelforme = new JLabel("carta giocata:");
 		labelforme.setFont(new Font("Roboto", Font.PLAIN, 12));
 		labelforme.setHorizontalAlignment(SwingConstants.CENTER);
-		labelforme.setBounds(388, 75, 94, 14);
+		labelforme.setBounds(357, 75, 94, 14);
 		frame.getContentPane().add(labelforme);
 
 		cartaMiaGiocataLabel = new JLabel("");
@@ -84,39 +112,28 @@ public class GamingWindow {
 			cartaMiaGiocataLabel.setIcon(new ImageIcon(cartaGiocataIO.toStringPath()));
 		}
 		cartaMiaGiocataLabel.setHorizontalAlignment(SwingConstants.CENTER);
-		cartaMiaGiocataLabel.setBounds(392, 99, 80, 128);
+		cartaMiaGiocataLabel.setBounds(367, 102, 73, 133);
 		frame.getContentPane().add(cartaMiaGiocataLabel);
-
-		outputLabel = new JLabel("");
-		outputLabel.setHorizontalAlignment(SwingConstants.CENTER);
-		outputLabel.setFont(new Font("Roboto", Font.PLAIN, 24));
-		outputLabel.setBounds(100, 11, 488, 53);
-		frame.getContentPane().add(outputLabel);
 
 		JLabel cartaDiBriscolaLabel = new JLabel("LE TUE CARTE");
 		cartaDiBriscolaLabel.setFont(new Font("Roboto", Font.PLAIN, 12));
 		cartaDiBriscolaLabel.setHorizontalAlignment(SwingConstants.CENTER);
-		cartaDiBriscolaLabel.setBounds(289, 398, 124, 14);
+		cartaDiBriscolaLabel.setBounds(299, 399, 94, 14);
 		frame.getContentPane().add(cartaDiBriscolaLabel);
-
-		JLabel cartaDiBriscola = new JLabel(new ImageIcon(partita.getBriscola().toStringPath()));
-		cartaDiBriscola.setFont(new Font("Tahoma", Font.PLAIN, 16));
-		cartaDiBriscola.setBounds(40, 143, 94, 125);
-		frame.getContentPane().add(cartaDiBriscola);
 
 		JButton carta1Button = new JButton();
 		buttonImplementation(carta1Button, 0);
-		carta1Button.setBounds(222, 271, 80, 125);
+		carta1Button.setBounds(229, 263, 73, 133);
 		frame.getContentPane().add(carta1Button);
 
 		JButton carta2Button = new JButton();
 		buttonImplementation(carta2Button, 1);
-		carta2Button.setBounds(313, 271, 80, 126);
+		carta2Button.setBounds(309, 263, 73, 133);
 		frame.getContentPane().add(carta2Button);
 
 		JButton carta3Button = new JButton();
 		buttonImplementation(carta3Button, 2);
-		carta3Button.setBounds(403, 270, 80, 126);
+		carta3Button.setBounds(388, 263, 73, 133);
 		frame.getContentPane().add(carta3Button);
 
 		JButton terminaButton = new JButton("termina");
@@ -127,12 +144,6 @@ public class GamingWindow {
 		});
 		terminaButton.setBounds(507, 412, 89, 23);
 		frame.getContentPane().add(terminaButton);
-		
-		JLabel cartaDiBriscolaLabel_1 = new JLabel("la carta di briscola \u00E8:");
-		cartaDiBriscolaLabel_1.setHorizontalAlignment(SwingConstants.CENTER);
-		cartaDiBriscolaLabel_1.setFont(new Font("Roboto", Font.PLAIN, 12));
-		cartaDiBriscolaLabel_1.setBounds(23, 118, 124, 14);
-		frame.getContentPane().add(cartaDiBriscolaLabel_1);
 
 	}
 
@@ -217,20 +228,16 @@ public class GamingWindow {
 					Carta cartaGiocataIA = partita.getTavolo().getCartaGiocataIA();
 					timing(new Timer(0, aggiornoCartaGiocataIA(cartaGiocataIA)));
 				}
+				
 				/* altrimenti svuoto tutte le label */
 				else {
-					timing(new Timer(0, svuotaLabel()));
+					timing(new Timer(0, svuotaLabelIA()));
+					cartaIAgiocataLabel.setIcon(new ImageIcon());
 				}
 				
-
-				if (partita.getTavolo().getMazzo().getMazzo().size() == 2) {
-					timing(new Timer(tempoRisposta, ultimeDueCarte()));
-				}
-
-				/* se la partita è finita lancia EndWindow */
-				if (!partita.isInCorso()) {
-					launchEndGame();
-				}
+				/* effettua i controlli finali della mano */
+				timing(new Timer(0, fineMano()));
+				
 			}
 
 		};
@@ -242,28 +249,61 @@ public class GamingWindow {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				cartaIAgiocataLabel.setIcon(new ImageIcon(cartaGiocataIA.toStringPath()));
-				cartaMiaGiocataLabel.setIcon(new ImageIcon());
-				outputLabel.setIcon(new ImageIcon());
 			}
 		};
 	}
 
-	private ActionListener svuotaLabel() {
+	private ActionListener svuotaLabelIA() {
 		return new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				cartaIAgiocataLabel.setIcon(new ImageIcon());
-				cartaMiaGiocataLabel.setIcon(new ImageIcon());
-				outputLabel.setIcon(new ImageIcon());
 			}
 		};
+		
+	}
+
+	private ActionListener fineMano() {
+		return new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+
+				/* se la partita è finita lancia EndWindow */
+				if (!partita.isInCorso()) {
+					launchEndGame();
+					return;
+				}
+				
+				/* svuota le label delle mie carte giocate */
+				outputLabel.setText("");
+				cartaMiaGiocataLabel.setIcon(new ImageIcon());
+				
+				/* se mancano due carte stampa nella label dedicata */
+				timing(new Timer(0, ultimeDueCarte()));
+				
+				/* se il mazzo è vuoto non visualizzare la carta di briscola */
+				if (partita.getTavolo().getMazzo().isEmpty()) {
+					cartaDiBriscola.setVisible(false);
+					cartaDiBriscolaLabel.setVisible(false);
+				}
+			}
+		};
+		
 	}
 	
 	private ActionListener ultimeDueCarte() {
 		return new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				outputLabel.setText("ULTIME DUE CARTE DEL MAZZO");				
+				if (partita.getTavolo().getMazzo().getMazzo().size() == 2) {
+					ultimeDueCarteLabel.setText("ULTIME DUE CARTE\nDEL MAZZO");
+					ultimeDueCarteLabel.setVisible(true);
+				}
+				else {
+					ultimeDueCarteLabel.setText("");
+					ultimeDueCarteLabel.setVisible(false);
+				}
+					
 			}
 		};
 	}
@@ -271,12 +311,6 @@ public class GamingWindow {
 	private void timing(Timer timer) {
 		timer.setRepeats(false);
 		timer.start();
-	}
-
-	private void launchEndGame() {
-		partita.endGame();
-		new EndWindow(this.partita).main();
-		this.frame.setVisible(false);
 	}
 
 	private void updateButton(JButton button, int pos) {
@@ -287,5 +321,11 @@ public class GamingWindow {
 		} else {
 			button.setVisible(false);
 		}
+	}
+
+	private void launchEndGame() {
+		partita.endGame();
+		this.frame.setVisible(false);
+		new EndWindow(this.partita).main();
 	}
 }
