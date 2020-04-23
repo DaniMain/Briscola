@@ -59,7 +59,7 @@ public class Carta{
 	}
 	
 	public String toStringPath() {
-		return "carte/" + this.toString() + ".png";
+		return "/carte/" + this.toString() + ".png";
 	}
 
 	public boolean isBetter(Carta carta, String briscola) {

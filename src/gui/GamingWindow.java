@@ -3,6 +3,7 @@ package gui;
 import java.awt.Color;
 import java.awt.EventQueue;
 import java.awt.Font;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -80,7 +81,10 @@ public class GamingWindow {
 		cartaDiBriscolaLabel.setBounds(37, 118, 124, 14);
 		frame.getContentPane().add(cartaDiBriscolaLabel);
 
-		cartaDiBriscola = new JLabel(new ImageIcon(partita.getBriscola().toStringPath()));
+		cartaDiBriscola = new JLabel(
+				new ImageIcon(
+						Toolkit.getDefaultToolkit().getImage(getClass().getResource(
+								partita.getBriscola().toStringPath()))));
 		cartaDiBriscola.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		cartaDiBriscola.setBounds(63, 143, 73, 133);
 		frame.getContentPane().add(cartaDiBriscola);
@@ -91,10 +95,13 @@ public class GamingWindow {
 		labelforIA.setBounds(241, 75, 94, 14);
 		frame.getContentPane().add(labelforIA);
 
-		cartaIAgiocataLabel = new JLabel("");
-		Carta cartaGiocataIA = partita.getTavolo().getCartaGiocataIA();
+		cartaIAgiocataLabel = new JLabel();
+		Carta cartaGiocataIA = partita.getTavolo().getCartaGiocataIA();		
 		if (cartaGiocataIA != null) {
-			cartaIAgiocataLabel.setIcon(new ImageIcon(cartaGiocataIA.toStringPath()));
+			cartaIAgiocataLabel.setIcon(
+					new ImageIcon(
+							Toolkit.getDefaultToolkit().getImage(getClass().getResource(
+									cartaGiocataIA.toStringPath()))));
 		}
 		cartaIAgiocataLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		cartaIAgiocataLabel.setBounds(251, 102, 73, 133);
@@ -106,10 +113,13 @@ public class GamingWindow {
 		labelforme.setBounds(357, 75, 94, 14);
 		frame.getContentPane().add(labelforme);
 
-		cartaMiaGiocataLabel = new JLabel("");
+		cartaMiaGiocataLabel = new JLabel();
 		Carta cartaGiocataIO = partita.getTavolo().getCartaGiocataIO();
 		if (cartaGiocataIO != null) {
-			cartaMiaGiocataLabel.setIcon(new ImageIcon(cartaGiocataIO.toStringPath()));
+			cartaMiaGiocataLabel.setIcon(
+					new ImageIcon(
+							Toolkit.getDefaultToolkit().getImage(getClass().getResource(
+									cartaGiocataIO.toStringPath()))));
 		}
 		cartaMiaGiocataLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		cartaMiaGiocataLabel.setBounds(367, 102, 73, 133);
@@ -150,7 +160,9 @@ public class GamingWindow {
 	private void buttonImplementation(JButton button, int pos) {
 		button.setBackground(Color.WHITE);
 		Carta carta = partita.getTavolo().getCarteMieReal()[pos];
-		button.setIcon(new ImageIcon(carta.toStringPath()));
+		button.setIcon(new ImageIcon(
+				Toolkit.getDefaultToolkit().getImage(getClass().getResource(
+						carta.toStringPath()))));
 		buttons[pos] = button;
 		button.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -172,7 +184,10 @@ public class GamingWindow {
 	private ActionListener giocoCarta(Carta cartaGiocata) {
 		return new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				cartaMiaGiocataLabel.setIcon(new ImageIcon(cartaGiocata.toStringPath()));
+				cartaMiaGiocataLabel.setIcon(
+						new ImageIcon(
+								Toolkit.getDefaultToolkit().getImage(getClass().getResource(
+										cartaGiocata.toStringPath()))));
 				partita.giocaManoIO(cartaGiocata);
 
 				/* se tocca all'IA dichiara la carta che gioca e controllo chi ha preso */
@@ -192,7 +207,10 @@ public class GamingWindow {
 	private ActionListener dichiaraCartaIA(JLabel cartaIAgiocataLabel, Carta cartaGiocataIA) {
 		return new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				cartaIAgiocataLabel.setIcon(new ImageIcon(cartaGiocataIA.toStringPath()));
+				cartaIAgiocataLabel.setIcon(
+						new ImageIcon(
+								Toolkit.getDefaultToolkit().getImage(getClass().getResource(
+										cartaGiocataIA.toStringPath()))));
 				String outputString = partita.checkAndContinue();
 
 				/* controllo chi ha preso */
@@ -248,7 +266,10 @@ public class GamingWindow {
 		return new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				cartaIAgiocataLabel.setIcon(new ImageIcon(cartaGiocataIA.toStringPath()));
+				cartaIAgiocataLabel.setIcon(
+						new ImageIcon(
+								Toolkit.getDefaultToolkit().getImage(getClass().getResource(
+										cartaGiocataIA.toStringPath()))));
 			}
 		};
 	}
@@ -316,7 +337,10 @@ public class GamingWindow {
 	private void updateButton(JButton button, int pos) {
 		Carta[] carteMieReal = partita.getTavolo().getCarteMieReal();
 		if (carteMieReal[pos] != null) {
-			button.setIcon(new ImageIcon(carteMieReal[pos].toStringPath()));
+			button.setIcon(
+					new ImageIcon(
+							Toolkit.getDefaultToolkit().getImage(getClass().getResource(
+									carteMieReal[pos].toStringPath()))));
 			button.setEnabled(true);
 		} else {
 			button.setVisible(false);
