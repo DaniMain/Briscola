@@ -159,7 +159,6 @@ public class GamingWindow {
 			public void actionPerformed(ActionEvent arg0) {
 				if (siPuoCliccare && partita.isInCorso()) {
 					siPuoCliccare = false;
-					System.out.println("gioco una mano");
 					button.setVisible(false);
 					giocata(pos);
 				}
